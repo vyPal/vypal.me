@@ -15,6 +15,8 @@ fi
 # Remove storage-init directory
 rm -rf /var/www/storage-init
 
+composer install
+
 # Run Laravel migrations
 # -----------------------------------------------------------
 # Ensure the database schema is up to date.

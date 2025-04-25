@@ -103,6 +103,8 @@ COPY --from=builder /var/www /var/www
 # Set working directory
 WORKDIR /var/www
 
+RUN composer install
+
 # Ensure correct permissions
 RUN chown -R www-data:www-data /var/www
 

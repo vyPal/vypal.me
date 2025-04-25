@@ -27,6 +27,15 @@ export interface SharedData {
     quote: { message: string; author: string };
     auth: Auth;
     ziggy: Config & { location: string };
+    props: {
+        auth: {
+            user: {
+                id: number;
+                name: string;
+                email: string;
+            } | null;
+        };
+    };
     [key: string]: unknown;
 }
 

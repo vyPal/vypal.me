@@ -4,27 +4,52 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
+import { Folder, Home, LayoutGrid, Link2, LinkIcon } from 'lucide-react';
 import AppLogo from './app-logo';
 
-const mainNavItems: NavItem[] = [
+interface Group {
+    title: string;
+    items: NavItem[];
+}
+
+const mainNavGroups: Group[] = [
     {
-        title: 'Dashboard',
-        url: '/dashboard',
-        icon: LayoutGrid,
+        title: 'Management',
+        items: [
+            {
+                title: 'Dashboard',
+                url: '/dashboard',
+                icon: LayoutGrid,
+            },
+            {
+                title: 'Link Manager',
+                url: '/dashboard/links',
+                icon: Link2,
+            },
+        ],
+    },
+    {
+        title: 'View',
+        items: [
+            {
+                title: 'Homepage',
+                url: '/',
+                icon: Home,
+            },
+            {
+                title: 'Links',
+                url: '/links',
+                icon: LinkIcon,
+            },
+        ],
     },
 ];
 
 const footerNavItems: NavItem[] = [
     {
         title: 'Repository',
-        url: 'https://github.com/laravel/react-starter-kit',
+        url: 'https://github.com/vyPal/vypal.me',
         icon: Folder,
-    },
-    {
-        title: 'Documentation',
-        url: 'https://laravel.com/docs/starter-kits',
-        icon: BookOpen,
     },
 ];
 
@@ -35,7 +60,7 @@ export function AppSidebar() {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href="/dashboard" prefetch>
+                            <Link href="/" prefetch>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>
@@ -44,7 +69,7 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain items={mainNavItems} />
+                <NavMain groups={mainNavGroups} />
             </SidebarContent>
 
             <SidebarFooter>

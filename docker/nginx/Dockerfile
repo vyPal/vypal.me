@@ -14,6 +14,9 @@ WORKDIR /var/www
 # Copy Laravel application code
 COPY . /var/www
 
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && composer install --no-dev --optimize-autoloader --no-interaction --no-progress --prefer-dist
+
 # Install Node.js dependencies and build assets
 RUN npm install && npm run build:ssr
 

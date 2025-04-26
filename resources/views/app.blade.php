@@ -5,6 +5,31 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         {{-- Inline script to detect system dark mode preference and apply it immediately --}}
+
+        <title>{{ config('app.name', 'Jakub Palacký - Portfolio') }}</title>
+        <meta name="title" content="@yield('meta_title', 'Jakub Palacký - Everything Developer')">
+        <meta name="description" content="@yield('meta_description', 'Everything Developer specializing in backend, frontend, mobile and embedded applications. View my portfolio of projects and skills.')">
+        <meta name="keywords" content="@yield('meta_keywords', 'portfolio, developer, backend, frontend, mobile, embedded, applications, projects, skills')">
+        <meta name="author" content="Jakub Palacký">
+
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="{{ url()->current() }}">
+        <meta property="og:title" content="@yield('meta_title', 'Jakub Palacký - Everything Developer')">
+        <meta property="og:description" content="@yield('meta_description', 'Everything Developer specializing in backend, frontend, mobile and embedded applications. View my portfolio of projects and skills.')">
+        <meta property="og:image" content="@yield('og_image', asset('media/vypal.png'))">
+
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="{{ url()->current() }}">
+        <meta property="twitter:title" content="@yield('meta_title', 'Your Name - Everything Developer')">
+        <meta property="twitter:description" content="@yield('meta_description', 'Everything Developer specializing in backend, frontend, mobile and embedded applications. View my portfolio of projects and skills.')">
+        <meta property="twitter:image" content="@yield('og_image', asset('media/vypal.png'))">
+
+        <link rel="canonical" href="{{ url()->current() }}">
+
+        <link rel="apple-touch-icon" sizes="180x180" href="/media/vypal.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/media/vypal.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/media/vypal.png">
+
         <script>
             (function() {
                 const appearance = '{{ $appearance ?? "system" }}';

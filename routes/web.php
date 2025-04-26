@@ -3,13 +3,12 @@
 use App\Http\Controllers\LinkController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
 
 Route::get('/', function () {
     return Inertia::render('home');
 })->name('home');
 
-Route::get('/links', [LinkController::class, 'index'])->name('links.index');
+Route::get('/{alias}', [LinkController::class, 'index'])->where('alias', 'links|link|l')->name('links.index');
 
 Route::middleware([
     'auth',

@@ -21,6 +21,11 @@ return Application::configure(basePath: dirname(__DIR__))
             HandleInertiaRequests::class,
             AddLinkHeadersForPreloadedAssets::class,
         ]);
+
+        $middleware->trustProxies(at: [
+            '100.70.86.127',
+            '10.0.0.0/8',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

@@ -40,7 +40,7 @@ export default function ContributionsSection({ scrollY }: ContributionsSectionPr
                             isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
                         }`}
                     >
-                        Open Source <span className="text-[#f53003] dark:text-[#FF4433]">Contributions</span>
+                        Open Source <span className="text-[#8847BB] dark:text-[#8847BB]">Contributions</span>
                     </h2>
 
                     <p
@@ -104,7 +104,7 @@ function ContributionCard({ contribution, isVisible, index }: ContributionCardPr
                 href={contribution.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center text-sm font-medium text-[#f53003] hover:text-[#d52a00] dark:text-[#FF4433] dark:hover:text-[#ff2e1a]"
+                className="flex items-center text-sm font-medium text-[#8847BB] hover:text-[#8847BB]/65 dark:text-[#8847BB] dark:hover:text-[#F9BAEE]"
             >
                 <span>View Contribution</span>
                 <svg width={16} height={16} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="ml-1">

@@ -1,5 +1,6 @@
 import { User } from '@/types';
 import { Link } from '@inertiajs/react';
+import { LogInIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 interface NavBarProps {
@@ -33,16 +34,16 @@ export default function NavBar({ auth }: NavBarProps) {
 
                 <div className="flex items-center gap-8">
                     <div className="hidden space-x-8 md:flex">
-                        <a href="#about" className="text-sm transition-colors hover:text-[#f53003] dark:hover:text-[#FF4433]">
+                        <a href="#about" className="text-sm transition-colors hover:text-[#8847BB] dark:hover:text-[#F9BAEE]">
                             About
                         </a>
-                        <a href="#skills" className="text-sm transition-colors hover:text-[#f53003] dark:hover:text-[#FF4433]">
+                        <a href="#skills" className="text-sm transition-colors hover:text-[#8847BB] dark:hover:text-[#F9BAEE]">
                             Skills
                         </a>
-                        <a href="#projects" className="text-sm transition-colors hover:text-[#f53003] dark:hover:text-[#FF4433]">
+                        <a href="#projects" className="text-sm transition-colors hover:text-[#8847BB] dark:hover:text-[#F9BAEE]">
                             Projects
                         </a>
-                        <a href="#contact" className="text-sm transition-colors hover:text-[#f53003] dark:hover:text-[#FF4433]">
+                        <a href="#contact" className="text-sm transition-colors hover:text-[#8847BB] dark:hover:text-[#F9BAEE]">
                             Contact
                         </a>
                     </div>
@@ -59,7 +60,7 @@ export default function NavBar({ auth }: NavBarProps) {
                             href={route('login')}
                             className="inline-block rounded-md border border-transparent px-5 py-1.5 text-sm leading-normal hover:border-[#19140035] dark:hover:border-[#3E3E3A]"
                         >
-                            Log in
+                            <LogInIcon className="size-4 text-center text-[#706f6c] dark:text-[#A1A09A]" />
                         </Link>
                     )}
                 </div>

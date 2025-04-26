@@ -42,7 +42,7 @@ export default function SkillsSection({ scrollY }: SkillsSectionProps) {
                             isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
                         }`}
                     >
-                        Skills & <span className="text-[#f53003] dark:text-[#FF4433]">Technologies</span>
+                        Skills & <span className="text-[#8847BB] dark:text-[#8847BB]">Technologies</span>
                     </h2>
 
                     <p
@@ -51,7 +51,7 @@ export default function SkillsSection({ scrollY }: SkillsSectionProps) {
                         }`}
                     >
                         I've worked with many programming languages, frameworks, and tools. Here is a small selection (you can view more on{' '}
-                        <a href="https://wakatime.com/@vyPal" className="text-[#f53003] dark:text-[#FF4433]" target="_blank">
+                        <a href="https://wakatime.com/@vyPal" className="text-[#8847BB] dark:text-[#8847BB]" target="_blank">
                             Wakatime
                         </a>
                         ):
@@ -93,7 +93,7 @@ function SkillCategory({ title, skills, isVisible, delay }: SkillCategoryProps) 
                         </div>
                         <div className="h-2 w-full overflow-hidden rounded-full bg-[#e3e3e0] dark:bg-[#1C1C1A]">
                             <div
-                                className="h-full rounded-full bg-[#f53003] dark:bg-[#FF4433]"
+                                className="h-full rounded-full bg-[#8847BB] dark:bg-[#8847BB]"
                                 style={{
                                     width: isVisible ? `${skill.level}%` : '0%',
                                     transition: `width 1s ease-in-out ${delay + index * 100}ms`,

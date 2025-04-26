@@ -16,16 +16,16 @@ export default function Footer() {
                         </div>
 
                         <div className="flex flex-col items-center space-y-4 md:flex-row md:space-y-0 md:space-x-8">
-                            <a href="#about" className="text-sm transition-colors hover:text-[#f53003] dark:hover:text-[#FF4433]">
+                            <a href="#about" className="text-sm transition-colors hover:text-[#F9BAEE] dark:hover:text-[#F9BAEE]">
                                 About
                             </a>
-                            <a href="#skills" className="text-sm transition-colors hover:text-[#f53003] dark:hover:text-[#FF4433]">
+                            <a href="#skills" className="text-sm transition-colors hover:text-[#F9BAEE] dark:hover:text-[#F9BAEE]">
                                 Skills
                             </a>
-                            <a href="#projects" className="text-sm transition-colors hover:text-[#f53003] dark:hover:text-[#FF4433]">
+                            <a href="#projects" className="text-sm transition-colors hover:text-[#F9BAEE] dark:hover:text-[#F9BAEE]">
                                 Projects
                             </a>
-                            <a href="#contact" className="text-sm transition-colors hover:text-[#f53003] dark:hover:text-[#FF4433]">
+                            <a href="#contact" className="text-sm transition-colors hover:text-[#F9BAEE] dark:hover:text-[#F9BAEE]">
                                 Contact
                             </a>
                         </div>

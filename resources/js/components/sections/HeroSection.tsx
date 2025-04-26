@@ -15,11 +15,11 @@ export default function HeroSection({ scrollY }: HeroSectionProps) {
 
             {/* Decorative elements that move with scroll */}
             <div
-                className="absolute top-[20%] right-[5%] h-64 w-64 rounded-full bg-[#f53003]/5 dark:bg-[#FF4433]/5"
+                className="absolute top-[20%] right-[5%] h-64 w-64 rounded-full bg-[#5E4290]/10 dark:bg-[#5E4290]/10"
                 style={{ transform: `translateY(${translateY * 0.7}px)` }}
             />
             <div
-                className="absolute bottom-[20%] left-[10%] h-40 w-40 rounded-full bg-[#f53003]/5 dark:bg-[#FF4433]/5"
+                className="absolute bottom-[20%] left-[10%] h-40 w-40 rounded-full bg-[#5E4290]/20 dark:bg-[#5E4290]/25"
                 style={{ transform: `translateY(${translateY * 0.4}px)` }}
             />
 
@@ -31,7 +31,7 @@ export default function HeroSection({ scrollY }: HeroSectionProps) {
                 }}
             >
                 <h1 className="mb-6 text-5xl font-bold tracking-tight md:text-6xl lg:text-7xl">
-                    Hi, I'm <span className="text-[#f53003] dark:text-[#FF4433]">Jakub Palacký</span>
+                    Hi, I'm <span className="text-[#8847BB] dark:text-[#8847BB]">Jakub Palacký</span>
                 </h1>
                 <p className="mx-auto mb-10 max-w-2xl text-xl text-[#706f6c] dark:text-[#A1A09A]">
                     A computer nerd, who enjoys pretty much anything related to technology, from coding to gaming, and everything in between.
@@ -83,7 +83,7 @@ function SocialIcon({ href, type }: SocialIconProps) {
         >
             {type === 'github' && (
                 <svg
-                    className="h-full w-full text-[#1b1b18] group-hover:text-[#f53003] dark:text-[#EDEDEC] dark:group-hover:text-[#FF4433]"
+                    className="h-full w-full text-[#1b1b18] group-hover:text-[#F9BAEE] dark:text-[#EDEDEC] dark:group-hover:text-[#F9BAEE]"
                     viewBox="0 0 24 24"
                     fill="currentColor"
                 >
@@ -92,7 +92,7 @@ function SocialIcon({ href, type }: SocialIconProps) {
             )}
             {type === 'linkedin' && (
                 <svg
-                    className="h-full w-full text-[#1b1b18] group-hover:text-[#f53003] dark:text-[#EDEDEC] dark:group-hover:text-[#FF4433]"
+                    className="h-full w-full text-[#1b1b18] group-hover:text-[#F9BAEE] dark:text-[#EDEDEC] dark:group-hover:text-[#F9BAEE]"
                     viewBox="0 0 24 24"
                     fill="currentColor"
                 >
@@ -101,7 +101,7 @@ function SocialIcon({ href, type }: SocialIconProps) {
             )}
             {type === 'twitter' && (
                 <svg
-                    className="h-full w-full text-[#1b1b18] group-hover:text-[#f53003] dark:text-[#EDEDEC] dark:group-hover:text-[#FF4433]"
+                    className="h-full w-full text-[#1b1b18] group-hover:text-[#F9BAEE] dark:text-[#EDEDEC] dark:group-hover:text-[#F9BAEE]"
                     viewBox="0 0 24 24"
                     fill="currentColor"
                 >

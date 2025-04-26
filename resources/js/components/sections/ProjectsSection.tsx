@@ -44,7 +44,7 @@ export default function ProjectsSection({ scrollY }: ProjectsSectionProps) {
                             isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
                         }`}
                     >
-                        My <span className="text-[#f53003] dark:text-[#FF4433]">Projects</span>
+                        My <span className="text-[#8847BB] dark:text-[#8847BB]">Projects</span>
                     </h2>
 
                     <p
@@ -93,7 +93,7 @@ function ProjectCard({ project, isVisible, index }: ProjectCardProps) {
         >
             <div className="md:w-1/2">
                 <div className="group relative">
-                    <div className="absolute -inset-1 rounded-lg bg-gradient-to-r from-[#f53003] to-[#f8b803] opacity-30 blur transition-opacity group-hover:opacity-50" />
+                    <div className="absolute -inset-1 rounded-lg bg-gradient-to-r from-[#5E4290] to-[#F9BAEE] opacity-30 blur transition-opacity group-hover:opacity-50" />
                     <div className="relative overflow-hidden rounded-lg">
                         <img src={project.image} alt={project.title} className="w-full transition-transform duration-500 group-hover:scale-105" />
                     </div>
@@ -121,7 +121,7 @@ function ProjectCard({ project, isVisible, index }: ProjectCardProps) {
                             href={project.liveUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center text-sm font-medium text-[#f53003] hover:text-[#d52a00] dark:text-[#FF4433] dark:hover:text-[#ff2e1a]"
+                            className="flex items-center text-sm font-medium text-[#8847BB] hover:text-[#8847BB]/65 dark:text-[#8847BB] dark:hover:text-[#F9BAEE]"
                         >
                             <span>View Live</span>
                             <svg width={16} height={16} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="ml-1">

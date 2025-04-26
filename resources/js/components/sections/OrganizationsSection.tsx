@@ -42,7 +42,7 @@ export default function OrganizationsSection({ scrollY }: OrganizationsSectionPr
                             isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
                         }`}
                     >
-                        GitHub <span className="text-[#f53003] dark:text-[#FF4433]">Organizations</span>
+                        GitHub <span className="text-[#8847BB] dark:text-[#8847BB]">Organizations</span>
                     </h2>
 
                     <p

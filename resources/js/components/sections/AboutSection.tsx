@@ -17,7 +17,7 @@ export default function AboutSection({ scrollY }: AboutSectionProps) {
                             isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
                         }`}
                     >
-                        About <span className="text-[#f53003] dark:text-[#FF4433]">Me</span>
+                        About <span className="text-[#8847BB] dark:text-[#8847BB]">Me</span>
                     </h2>
 
                     <div className="grid items-center gap-12 md:grid-cols-2">
@@ -27,7 +27,7 @@ export default function AboutSection({ scrollY }: AboutSectionProps) {
                             }`}
                         >
                             <div className="relative">
-                                <div className="absolute -inset-2 rounded-lg bg-gradient-to-r from-[#f53003] to-[#f8b803] opacity-30 blur" />
+                                <div className="absolute -inset-2 rounded-lg bg-gradient-to-r from-[#5E4290] to-[#F9BAEE] opacity-30 blur" />
                                 <div className="relative aspect-square overflow-hidden rounded-lg bg-[#e3e3e0] dark:bg-[#1C1C1A]">
                                     {/* Replace with your profile image */}
                                     <img src="/media/vypal.png" alt="Your Name" className="h-full w-full object-cover" />
@@ -56,7 +56,7 @@ export default function AboutSection({ scrollY }: AboutSectionProps) {
 
                             <div className="flex flex-wrap gap-4">
                                 <div className="flex items-center">
-                                    <div className="mr-3 flex h-10 w-10 items-center justify-center rounded-md bg-[#f53003]/10 text-[#f53003] dark:bg-[#FF4433]/10 dark:text-[#FF4433]">
+                                    <div className="mr-3 flex h-10 w-10 items-center justify-center rounded-md bg-[#5E4290]/10 text-[#5E4290] dark:bg-[#5E4290]/10 dark:text-[#F9BAEE]">
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                             <path
                                                 fillRule="evenodd"
@@ -73,7 +73,7 @@ export default function AboutSection({ scrollY }: AboutSectionProps) {
                                 </div>
 
                                 <div className="flex items-center">
-                                    <div className="mr-3 flex h-10 w-10 items-center justify-center rounded-md bg-[#f53003]/10 text-[#f53003] dark:bg-[#FF4433]/10 dark:text-[#FF4433]">
+                                    <div className="mr-3 flex h-10 w-10 items-center justify-center rounded-md bg-[#5E4290]/10 text-[#5E4290] dark:bg-[#5E4290]/10 dark:text-[#F9BAEE]">
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                             <path
                                                 fillRule="evenodd"

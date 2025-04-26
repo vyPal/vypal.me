@@ -18,7 +18,7 @@ export default function UtilitiesIndex() {
                     />
                 </svg>
             ),
-        } /*
+        },
         {
             name: 'CSS Flexbox Playground',
             description: 'Interactively learn and experiment with CSS Flexbox properties',
@@ -48,7 +48,7 @@ export default function UtilitiesIndex() {
                     />
                 </svg>
             ),
-        },
+        } /* These are some other ideas I had when originally coming up with the utility page, but I guess I am too lazy to actually implement them.
         {
             name: 'Code Formatter',
             description: 'Format and beautify your code snippets with syntax highlighting',

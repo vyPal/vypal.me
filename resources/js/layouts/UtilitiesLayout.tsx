@@ -34,9 +34,9 @@ export default function UtilitiesLayout({ children, currentUtility }: UtilitiesL
     // Define all available utilities
     const utilities = [
         { name: 'Color Palette Generator', path: '/utils/color-palette' },
-        /*{ name: 'CSS Flexbox Playground', path: '/utils/flexbox-playground' },
+        { name: 'CSS Flexbox Playground', path: '/utils/flexbox-playground' },
         { name: 'SVG Path Animator', path: '/utils/svg-animator' },
-        { name: 'Code Formatter', path: '/utils/code-formatter' },
+        /*{ name: 'Code Formatter', path: '/utils/code-formatter' },
         { name: 'Markdown Preview', path: '/utils/markdown-preview' },
         { name: 'JSON Formatter', path: '/utils/json-formatter' },
         { name: 'Image Optimizer', path: '/utils/image-optimizer' },

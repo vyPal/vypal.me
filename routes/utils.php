@@ -10,4 +10,10 @@ Route::prefix('utils')->group(function () {
     Route::get('/color-palette', function () {
         return Inertia::render('utils/ColorPalette');
     });
+    Route::get('/flexbox-playground', function () {
+        return Inertia::render('utils/FlexboxPlayground');
+    });
+    Route::get('/svg-animator', function () {
+        return Inertia::render('utils/SvgAnimator');
+    });
 });

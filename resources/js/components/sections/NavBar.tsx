@@ -24,7 +24,7 @@ export default function NavBar({ auth }: NavBarProps) {
     return (
         <header
             className={`fixed top-0 left-0 z-50 w-full transition-all duration-300 ${
-                scrolled ? 'bg-[#FDFDFC]/90 py-2 shadow-sm backdrop-blur-md dark:bg-[#0a0a0a]/90' : 'py-4'
+                scrolled ? 'bg-[#FDFDFC]/90 py-2 shadow-lg shadow-[#8847BB]/25 backdrop-blur-md dark:bg-[#0a0a0a]/90' : 'py-4'
             }`}
         >
             <nav className="container mx-auto flex items-center justify-between px-6">

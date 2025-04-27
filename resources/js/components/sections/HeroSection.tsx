@@ -1,4 +1,5 @@
 import { Link } from '@inertiajs/react';
+import SmoothScrollLink from '../ui/SmoothScrollLink';
 
 interface HeroSectionProps {
     scrollY: number;
@@ -40,18 +41,18 @@ export default function HeroSection({ scrollY }: HeroSectionProps) {
                 </p>
 
                 <div className="flex flex-wrap justify-center gap-4">
-                    <a
+                    <SmoothScrollLink
                         href="#projects"
                         className="rounded-md bg-[#1b1b18] px-6 py-3 text-sm font-medium text-white transition-all hover:bg-black dark:bg-[#eeeeec] dark:text-[#1C1C1A] dark:hover:bg-white"
                     >
                         View My Work
-                    </a>
-                    <a
+                    </SmoothScrollLink>
+                    <SmoothScrollLink
                         href="#contact"
                         className="rounded-md border border-[#19140035] px-6 py-3 text-sm font-medium transition-all hover:border-[#1915014a] dark:border-[#3E3E3A] dark:hover:border-[#62605b]"
                     >
                         Contact Me
-                    </a>
+                    </SmoothScrollLink>
                 </div>
 
                 <div className="mt-16 flex justify-center space-x-6">

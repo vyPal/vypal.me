@@ -2,6 +2,7 @@ import { User } from '@/types';
 import { Link } from '@inertiajs/react';
 import { LogInIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import SmoothScrollLink from '../ui/SmoothScrollLink';
 
 interface NavBarProps {
     auth: {
@@ -54,18 +55,18 @@ export default function NavBar({ auth }: NavBarProps) {
 
                 <div className="flex items-center gap-8">
                     <div className="hidden space-x-8 md:flex">
-                        <a href="#about" className="text-sm transition-colors hover:text-[#8847BB] dark:hover:text-[#F9BAEE]">
+                        <SmoothScrollLink href="#about" className="text-sm transition-colors hover:text-[#8847BB] dark:hover:text-[#F9BAEE]">
                             About
-                        </a>
-                        <a href="#skills" className="text-sm transition-colors hover:text-[#8847BB] dark:hover:text-[#F9BAEE]">
+                        </SmoothScrollLink>
+                        <SmoothScrollLink href="#skills" className="text-sm transition-colors hover:text-[#8847BB] dark:hover:text-[#F9BAEE]">
                             Skills
-                        </a>
-                        <a href="#projects" className="text-sm transition-colors hover:text-[#8847BB] dark:hover:text-[#F9BAEE]">
+                        </SmoothScrollLink>
+                        <SmoothScrollLink href="#projects" className="text-sm transition-colors hover:text-[#8847BB] dark:hover:text-[#F9BAEE]">
                             Projects
-                        </a>
-                        <a href="#contact" className="text-sm transition-colors hover:text-[#8847BB] dark:hover:text-[#F9BAEE]">
+                        </SmoothScrollLink>
+                        <SmoothScrollLink href="#contact" className="text-sm transition-colors hover:text-[#8847BB] dark:hover:text-[#F9BAEE]">
                             Contact
-                        </a>
+                        </SmoothScrollLink>
                     </div>
 
                     {auth.user ? (

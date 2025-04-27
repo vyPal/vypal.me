@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import AboutSection from '@/components/sections/AboutSection';
 import ContactSection from '@/components/sections/ContactSection';
 import ContributionsSection from '@/components/sections/ContributionsSection';
+import FeaturedLinksSection from '@/components/sections/FeaturedLinks';
 import Footer from '@/components/sections/Footer';
 import HeroSection from '@/components/sections/HeroSection';
 import NavBar from '@/components/sections/NavBar';
@@ -365,6 +366,9 @@ export default function Home() {
                     <main className="overflow-hidden">
                         {/* Hero Section */}
                         <HeroSection scrollY={scrollY} />
+
+                        {/* Featured Links */}
+                        <FeaturedLinksSection scrollY={scrollY} />
 
                         {/* About Me */}
                         <AboutSection scrollY={scrollY} />

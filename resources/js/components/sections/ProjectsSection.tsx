@@ -91,14 +91,14 @@ function ProjectCard({ project, isVisible, index }: ProjectCardProps) {
             }`}
             style={{ transitionDelay: `${delay}ms` }}
         >
-            <div className="md:w-1/2">
+            <a className="md:w-1/2" href={project.githubUrl} target="_blank" rel="noopener noreferrer">
                 <div className="group relative">
                     <div className="absolute -inset-1 rounded-lg bg-gradient-to-r from-[#5E4290] to-[#F9BAEE] opacity-30 blur transition-opacity group-hover:opacity-50" />
                     <div className="relative overflow-hidden rounded-lg">
                         <img src={project.image} alt={project.title} className="w-full transition-transform duration-500 group-hover:scale-105" />
                     </div>
                 </div>
-            </div>
+            </a>
 
             <div className="md:w-1/2">
                 <h3 className="mb-3 text-2xl font-bold">{project.title}</h3>

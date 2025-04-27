@@ -67,7 +67,7 @@ export default function AboutSection({ scrollY }: AboutSectionProps) {
                                         </svg>
                                     </div>
                                     <div>
-                                        <h4 className="font-medium">Experience (non-profesional)</h4>
+                                        <h4 className="font-medium">Experience (non-professional)</h4>
                                         <p className="text-sm text-[#706f6c] dark:text-[#A1A09A]">9 Years</p>
                                     </div>
                                 </div>

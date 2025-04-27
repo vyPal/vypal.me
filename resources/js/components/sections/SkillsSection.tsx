@@ -50,7 +50,8 @@ export default function SkillsSection({ scrollY }: SkillsSectionProps) {
                             isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
                         }`}
                     >
-                        I've worked with many programming languages, frameworks, and tools. Here is a small selection (you can view more on{' '}
+                        I've worked with many programming languages, frameworks, and tools. Here is a preview of some of them and my
+                        experience/confidence in workin with them (you can view more on{' '}
                         <a href="https://wakatime.com/@vyPal" className="text-[#8847BB] dark:text-[#8847BB]" target="_blank">
                             Wakatime
                         </a>

@@ -14,20 +14,23 @@ export default function ContributionsSection({ scrollY }: ContributionsSectionPr
             project: 'Pumpkin',
             description: 'Various bug fixes and improvements, but most importantly I wrote the original plugin system (still in use)',
             url: 'https://github.com/Pumpkin-MC/Pumpkin/issues?q=author%3AvyPal',
-            type: 'Feature',
+            type: 'feature',
+            label: 'Features and Bug Fixes',
         },
         {
             project: 'Libvirt',
             description:
                 'Fix a BSD-specific issue with password input, and adapt code to prepare for update to libxml2 (I was on a internship at Red Hat)',
             url: 'https://gitlab.com/libvirt/libvirt/-/commits/master?ref_type=HEADS&author=jpalacky@redhat.com',
-            type: 'Bug Fix',
+            type: 'bugfix',
+            label: 'Bug Fixes and Future Preparation',
         },
         {
             project: 'Mimlex Vault',
             description: 'Created and maintained a storage backend for Mimlex (a small community Android ROM project)',
             url: 'https://github.com/Mimlex/Vault',
-            type: 'Maintainer',
+            type: 'maintainer',
+            label: 'Maintainer',
         },
     ];
 
@@ -67,6 +70,7 @@ interface ContributionCardProps {
         project: string;
         description: string;
         url: string;
+        label: string;
         type: string;
     };
     isVisible: boolean;
@@ -87,14 +91,14 @@ function ContributionCard({ contribution, isVisible, index }: ContributionCardPr
                 <h3 className="font-medium">{contribution.project}</h3>
                 <span
                     className={`rounded-full px-3 py-1 text-xs font-medium ${
-                        contribution.type === 'Bug Fix'
+                        contribution.type === 'bugfix'
                             ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300'
-                            : contribution.type === 'Feature'
+                            : contribution.type === 'feature'
                               ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300'
                               : 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300'
                     }`}
                 >
-                    {contribution.type}
+                    {contribution.label}
                 </span>
             </div>
 

@@ -181,7 +181,7 @@ export default function PathfindingVisualizer() {
                     isVisited: false,
                     distance: Infinity,
                     previousNode: null,
-                    type: node.isWall ? 'wall' : node.type === 'start' ? 'start' : node.type === 'end' ? 'end' : 'empty',
+                    type: node.isWall ? ('wall' as NodeType) : node.type === 'start' ? 'start' : node.type === 'end' ? 'end' : 'empty',
                     f: Infinity,
                     g: Infinity,
                     h: Infinity,
@@ -216,7 +216,7 @@ export default function PathfindingVisualizer() {
                     distance: Infinity,
                     previousNode: null,
                     isWall: false,
-                    type: node.type === 'start' ? 'start' : node.type === 'end' ? 'end' : 'empty',
+                    type: node.type === 'start' ? ('start' as NodeType) : node.type === 'end' ? 'end' : 'empty',
                 };
 
                 // Define wall density
@@ -256,7 +256,7 @@ export default function PathfindingVisualizer() {
                     distance: Infinity,
                     previousNode: null,
                     isWall: false,
-                    type: node.type === 'start' ? 'start' : node.type === 'end' ? 'end' : 'empty',
+                    type: node.type === 'start' ? ('start' as NodeType) : node.type === 'end' ? 'end' : 'empty',
                 };
             }),
         );
@@ -752,7 +752,7 @@ export default function PathfindingVisualizer() {
 
     // Calculate cell size based on grid dimensions
     const calculateCellSize = () => {
-        const { rows, cols } = gridSizes[gridSize];
+        const { cols } = gridSizes[gridSize];
         // Ensuring cells are square but fit properly in the container
         const maxWidth = Math.min(30, Math.floor(600 / cols)); // 600px is approximate container width
         return maxWidth;
@@ -897,7 +897,7 @@ export default function PathfindingVisualizer() {
                                 >
                                     {grid.map((row, rowIdx) =>
                                         row.map((node, colIdx) => {
-                                            const { type, isWall, row, col } = node;
+                                            const { type, row, col } = node;
 
                                             let cellClass = '';
 

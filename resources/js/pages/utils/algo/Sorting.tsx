@@ -587,7 +587,7 @@ export default function SortingVisualizer() {
                             {/* Array Visualization */}
                             <div className="mt-6 h-64 overflow-hidden rounded-md border dark:border-[#5E4290]/20">
                                 <div className="flex h-full items-end justify-around p-2" style={{ minHeight: '250px' }}>
-                                    {array.map((bar, index) => (
+                                    {array.map((bar) => (
                                         <div
                                             key={bar.key}
                                             className={`transition-all duration-${speedValues[speed]} w-[${100 / arraySizeValues[arraySize]}%] max-w-[20px] min-w-[2px] rounded-t-sm ${

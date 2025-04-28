@@ -63,6 +63,16 @@ export default function UtilitiesIndex() {
                     />
                 </svg>
             ),
+        },
+        {
+            name: 'CAPTCHA Minigame',
+            description: 'Human verification through fun interactive challenges instead of frustrating traditional CAPTCHAs',
+            path: '/utils/captcha-demo',
+            icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 3h6v11h4l-7 7-7-7h4z" />
+                </svg>
+            ),
         } /* These are some other ideas I had when originally coming up with the utility page, but I guess I am too lazy to actually implement them.
         {
             name: 'Code Formatter',

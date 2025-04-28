@@ -28,4 +28,8 @@ Route::prefix('utils')->group(function () {
             return Inertia::render('utils/algo/Pathfinding');
         });
     });
+
+    Route::get('/captcha-demo', function () {
+        return Inertia::render('utils/CaptchaDemo');
+    });
 });

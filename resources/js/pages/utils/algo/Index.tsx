@@ -28,7 +28,7 @@ export default function AlgorithmVisualizerIndex() {
                     />
                 </svg>
             ),
-            algorithms: ['A* Search', "Dijkstra's Algorithm", 'Breadth-First Search', 'Depth-First Search'],
+            algorithms: ['A* Search', "Dijkstra's Algorithm", 'Breadth-First Search', 'Depth-First Search', 'FloodFill', 'Greedy Best-First Search'],
         },
     ];
 

@@ -20,7 +20,7 @@ interface Node {
 }
 
 // Algorithm types
-type AlgorithmName = 'dijkstra' | 'astar' | 'bfs' | 'dfs';
+type AlgorithmName = 'dijkstra' | 'astar' | 'bfs' | 'dfs' | 'floodfill' | 'greedy';
 
 // Animation speeds
 type Speed = 'slow' | 'medium' | 'fast';
@@ -647,6 +647,116 @@ export default function PathfindingVisualizer() {
         return { visitedNodesInOrder, nodesInShortestPathOrder };
     };
 
+    const floodfill = () => {
+        if (!startNode || !endNode) return { visitedNodesInOrder: [], nodesInShortestPathOrder: [] };
+
+        const visitedNodesInOrder: Node[] = [];
+        const startNodeObj = grid[startNode.row][startNode.col];
+        const finishNodeObj = grid[endNode.row][endNode.col];
+
+        // For flood fill, we don't care about optimal paths
+        // We just want to explore the entire accessible area from the start
+
+        // Queue for BFS-style filling
+        const queue: Node[] = [startNodeObj];
+        const visited = new Set<string>();
+        visited.add(`${startNodeObj.row}-${startNodeObj.col}`);
+        startNodeObj.isVisited = true;
+        visitedNodesInOrder.push(startNodeObj);
+
+        let targetFound = false;
+        let currentNode: Node | undefined;
+
+        // Main flood fill loop
+        while (queue.length > 0 && !targetFound) {
+            currentNode = queue.shift();
+            if (!currentNode) break;
+
+            // Check if we've reached the target
+            if (currentNode === finishNodeObj) {
+                targetFound = true;
+                break;
+            }
+
+            // Get all 4-connected neighbors (up, right, down, left)
+            // For a true flood fill, you might also consider 8-connected neighbors (diagonals)
+            const neighbors = getNeighbors(currentNode, grid);
+
+            // Process each neighbor
+            for (const neighbor of neighbors) {
+                const key = `${neighbor.row}-${neighbor.col}`;
+                if (!visited.has(key)) {
+                    visited.add(key);
+                    neighbor.isVisited = true;
+                    neighbor.previousNode = currentNode;
+                    visitedNodesInOrder.push(neighbor);
+                    queue.push(neighbor);
+                }
+            }
+        }
+
+        const nodesInShortestPathOrder = targetFound ? getNodesInShortestPathOrder(finishNodeObj) : [];
+        return { visitedNodesInOrder, nodesInShortestPathOrder };
+    };
+
+    const greedybestfirstsearch = () => {
+        if (!startNode || !endNode) return { visitedNodesInOrder: [], nodesInShortestPathOrder: [] };
+
+        const visitedNodesInOrder: Node[] = [];
+        const startNodeObj = grid[startNode.row][startNode.col];
+        const finishNodeObj = grid[endNode.row][endNode.col];
+
+        // Initialize the start node
+        startNodeObj.isVisited = false;
+        startNodeObj.distance = 0;
+        // The heuristic is the Manhattan distance to the goal
+        startNodeObj.h = calculateManhattanDistance(startNodeObj.row, startNodeObj.col, finishNodeObj.row, finishNodeObj.col);
+
+        // Priority queue (implemented as an array that we sort)
+        const openSet: Node[] = [startNodeObj];
+
+        // While there are nodes to visit
+        while (openSet.length > 0) {
+            // Sort by the heuristic (h) value - closest to goal first
+            openSet.sort((a, b) => (a.h || 0) - (b.h || 0));
+
+            // Get the node closest to the goal according to heuristic
+            const currentNode = openSet.shift();
+            if (!currentNode) break;
+
+            // Skip if we've visited this node or it's a wall
+            if (currentNode.isVisited || currentNode.isWall) continue;
+
+            // Mark as visited
+            currentNode.isVisited = true;
+            visitedNodesInOrder.push(currentNode);
+
+            // If we reached the goal, we're done
+            if (currentNode === finishNodeObj) {
+                const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNodeObj);
+                return { visitedNodesInOrder, nodesInShortestPathOrder };
+            }
+
+            // Check neighbors
+            const neighbors = getNeighbors(currentNode, grid);
+            for (const neighbor of neighbors) {
+                if (!neighbor.isVisited) {
+                    // Calculate heuristic for this neighbor (Manhattan distance to goal)
+                    neighbor.h = calculateManhattanDistance(neighbor.row, neighbor.col, finishNodeObj.row, finishNodeObj.col);
+
+                    // This node came from currentNode
+                    neighbor.previousNode = currentNode;
+
+                    // Add to open set for consideration
+                    openSet.push(neighbor);
+                }
+            }
+        }
+
+        // If we got here, we didn't find a path
+        return { visitedNodesInOrder, nodesInShortestPathOrder: [] };
+    };
+
     // Get all nodes from the grid
     const getAllNodes = (grid: Node[][]) => {
         const nodes: Node[] = [];
@@ -701,6 +811,12 @@ export default function PathfindingVisualizer() {
                 case 'dfs':
                     result = dfs();
                     break;
+                case 'floodfill':
+                    result = floodfill();
+                    break;
+                case 'greedy':
+                    result = greedybestfirstsearch();
+                    break;
                 default:
                     result = { visitedNodesInOrder: [], nodesInShortestPathOrder: [] };
             }
@@ -744,6 +860,24 @@ export default function PathfindingVisualizer() {
             description:
                 'An unweighted algorithm that explores as far as possible along each branch before backtracking. Does not guarantee the shortest path.',
             timeComplexity: 'O(V + E)',
+            spaceComplexity: 'O(V)',
+            guaranteedShortest: false,
+            weightedAlgorithm: false,
+        },
+        floodfill: {
+            title: 'Flood Fill',
+            description:
+                'A simple algorithm that fills connected regions with values. It spreads outward from a starting point to all accessible cells, similar to how a flood would spread.',
+            timeComplexity: 'O(N)',
+            spaceComplexity: 'O(N)',
+            guaranteedShortest: false,
+            weightedAlgorithm: false,
+        },
+        greedy: {
+            title: 'Greedy Best-First Search',
+            description:
+                'A heuristic-based algorithm that always chooses the path that appears closest to the goal, regardless of the actual path cost so far.',
+            timeComplexity: 'O(E)',
             spaceComplexity: 'O(V)',
             guaranteedShortest: false,
             weightedAlgorithm: false,
@@ -1012,7 +1146,7 @@ export default function PathfindingVisualizer() {
                             <div className="mb-6">
                                 <label className="mb-2 block text-sm font-medium">Algorithm</label>
                                 <div className="grid grid-cols-1 gap-2">
-                                    {(['dijkstra', 'astar', 'bfs', 'dfs'] as AlgorithmName[]).map((algo) => (
+                                    {(['dijkstra', 'astar', 'bfs', 'dfs', 'floodfill', 'greedy'] as AlgorithmName[]).map((algo) => (
                                         <button
                                             key={algo}
                                             onClick={() => setSelectedAlgorithm(algo)}
@@ -1190,6 +1324,40 @@ export default function PathfindingVisualizer() {
                                             </ol>
                                         </>
                                     )}
+
+                                    {selectedAlgorithm === 'floodfill' && (
+                                        <>
+                                            <p className="mb-2">
+                                                Flood Fill is a simple algorithm that explores all accessible cells from a starting position, like
+                                                water flooding an area.
+                                            </p>
+                                            <ol className="ml-4 list-decimal space-y-1">
+                                                <li>Start at a single cell (the seed)</li>
+                                                <li>Mark the current cell as visited</li>
+                                                <li>Check all adjacent cells (usually up, down, left, right)</li>
+                                                <li>For each adjacent cell that is not a wall and not visited:</li>
+                                                <li>Add it to the queue of cells to process</li>
+                                                <li>Continue until the queue is empty or target is found</li>
+                                            </ol>
+                                        </>
+                                    )}
+
+                                    {selectedAlgorithm === 'greedy' && (
+                                        <>
+                                            <p className="mb-2">
+                                                Greedy Best-First Search always chooses the path that seems closest to the goal based on a heuristic
+                                                function.
+                                            </p>
+                                            <ol className="ml-4 list-decimal space-y-1">
+                                                <li>Start at the initial node and calculate its heuristic distance to the goal</li>
+                                                <li>Always select the node from the open list with the lowest heuristic value</li>
+                                                <li>Unlike A*, it ignores the cost to reach the current position</li>
+                                                <li>Expands the search in the direction of the goal</li>
+                                                <li>Very fast but doesn't guarantee the shortest path</li>
+                                                <li>May get trapped in dead ends that appear close to the goal</li>
+                                            </ol>
+                                        </>
+                                    )}
                                 </div>
                                 <div className="mt-4 text-center">
                                     <a
@@ -1246,6 +1414,20 @@ export default function PathfindingVisualizer() {
                                             <td className="px-3 py-2 text-xs whitespace-nowrap">Fast</td>
                                             <td className="px-3 py-2 text-xs whitespace-nowrap text-red-500">No</td>
                                             <td className="px-3 py-2 text-xs whitespace-nowrap">Maze Generation, Cycle Detection</td>
+                                        </tr>
+                                        <tr className={selectedAlgorithm === 'floodfill' ? 'bg-[#8847BB]/10 dark:bg-[#5E4290]/20' : ''}>
+                                            <td className="px-3 py-2 text-xs font-medium whitespace-nowrap">Flood Fill</td>
+                                            <td className="px-3 py-2 text-xs whitespace-nowrap text-red-500">No</td>
+                                            <td className="px-3 py-2 text-xs whitespace-nowrap">Very Fast</td>
+                                            <td className="px-3 py-2 text-xs whitespace-nowrap text-red-500">No</td>
+                                            <td className="px-3 py-2 text-xs whitespace-nowrap">Image Filling, Bucket Tool</td>
+                                        </tr>
+                                        <tr className={selectedAlgorithm === 'greedy' ? 'bg-[#8847BB]/10 dark:bg-[#5E4290]/20' : ''}>
+                                            <td className="px-3 py-2 text-xs font-medium whitespace-nowrap">Greedy Best-First</td>
+                                            <td className="px-3 py-2 text-xs whitespace-nowrap text-red-500">No</td>
+                                            <td className="px-3 py-2 text-xs whitespace-nowrap">Very Fast</td>
+                                            <td className="px-3 py-2 text-xs whitespace-nowrap text-red-500">No</td>
+                                            <td className="px-3 py-2 text-xs whitespace-nowrap">Real-time games, Approximations</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -1312,6 +1494,14 @@ export default function PathfindingVisualizer() {
                             <p className="text-[#706f6c] dark:text-[#A1A09A]">
                                 Search engines use <span className="font-medium text-[#8847BB] dark:text-[#F9BAEE]">BFS</span> to discover and index
                                 web pages by following links from page to page, efficiently exploring the web graph structure.
+                            </p>
+                        </div>
+
+                        <div className="rounded-lg bg-[#8847BB]/5 p-5 dark:bg-[#5E4290]/10">
+                            <h3 className="mb-3 text-lg font-medium">Graphics Software</h3>
+                            <p className="text-[#706f6c] dark:text-[#A1A09A]">
+                                <span className="font-medium text-[#8847BB] dark:text-[#F9BAEE]">Flood Fill</span> is the algorithm behind the "paint
+                                bucket" or "fill" tool in image editing applications like Photoshop to color contiguous regions of similar colors.
                             </p>
                         </div>
                     </div>

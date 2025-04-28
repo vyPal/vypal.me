@@ -16,4 +16,16 @@ Route::prefix('utils')->group(function () {
     Route::get('/svg-animator', function () {
         return Inertia::render('utils/SvgAnimator');
     });
+
+    Route::prefix('algo')->group(function () {
+        Route::get('/', function () {
+            return Inertia::render('utils/algo/Index');
+        });
+        Route::get('/sorting', function () {
+            return Inertia::render('utils/algo/Sorting');
+        });
+        Route::get('/pathfinding', function () {
+            return Inertia::render('utils/algo/Pathfinding');
+        });
+    });
 });

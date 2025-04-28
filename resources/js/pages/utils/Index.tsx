@@ -48,6 +48,21 @@ export default function UtilitiesIndex() {
                     />
                 </svg>
             ),
+        },
+        {
+            name: 'Algorithm Visualizer',
+            description: 'Interactive visualizations of common algorithms to understand how they work',
+            path: '/utils/algo',
+            icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={1.5}
+                        d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"
+                    />
+                </svg>
+            ),
         } /* These are some other ideas I had when originally coming up with the utility page, but I guess I am too lazy to actually implement them.
         {
             name: 'Code Formatter',
@@ -138,18 +153,25 @@ export default function UtilitiesIndex() {
                 </div>
 
                 {/* Featured utilities */}
-                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    {utilities.map((utility) => (
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    {utilities.map((category) => (
                         <Link
-                            key={utility.path}
-                            href={utility.path}
-                            className="group rounded-lg border bg-white p-6 shadow-sm transition-all hover:shadow-md dark:border-[#5E4290]/20 dark:bg-[#161615]"
+                            key={category.path}
+                            href={category.path}
+                            className="group relative overflow-hidden rounded-lg border bg-white p-6 shadow-sm transition-all hover:shadow-md dark:border-[#5E4290]/20 dark:bg-[#161615]"
                         >
-                            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[#8847BB]/10 text-[#8847BB] transition-colors group-hover:bg-[#8847BB]/20 dark:bg-[#5E4290]/20 dark:text-[#F9BAEE] dark:group-hover:bg-[#5E4290]/30">
-                                {utility.icon}
+                            <div className="flex items-start gap-6">
+                                <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-[#8847BB]/10 text-[#8847BB] transition-colors group-hover:bg-[#8847BB]/20 dark:bg-[#5E4290]/20 dark:text-[#F9BAEE] dark:group-hover:bg-[#5E4290]/30">
+                                    {category.icon}
+                                </div>
+                                <div>
+                                    <h2 className="mb-2 text-xl font-medium group-hover:text-[#8847BB] dark:group-hover:text-[#F9BAEE]">
+                                        {category.name}
+                                    </h2>
+                                    <p className="mb-4 text-[#706f6c] dark:text-[#A1A09A]">{category.description}</p>
+                                </div>
                             </div>
-                            <h2 className="mb-2 text-xl font-medium group-hover:text-[#8847BB] dark:group-hover:text-[#F9BAEE]">{utility.name}</h2>
-                            <p className="text-[#706f6c] dark:text-[#A1A09A]">{utility.description}</p>
+                            <div className="absolute bottom-0 left-0 h-1 w-0 bg-gradient-to-r from-[#8847BB] to-[#5E4290] transition-all duration-300 group-hover:w-full dark:from-[#F9BAEE] dark:to-[#8847BB]"></div>
                         </Link>
                     ))}
                 </div>

@@ -50,6 +50,7 @@
         "gsap": "^3.12.7",
         "laravel-vite-plugin": "^1.0",
         "lucide-react": "^0.475.0",
+        "puppeteer": "^24.7.2",
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
         "tailwind-merge": "^3.0.1",

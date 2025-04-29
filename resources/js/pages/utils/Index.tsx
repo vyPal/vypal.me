@@ -1,5 +1,6 @@
+import SEO from '@/components/SEO';
 import UtilitiesLayout from '@/layouts/UtilitiesLayout';
-import { Head, Link } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 
 export default function UtilitiesIndex() {
     // Define all your utilities with descriptions and icons
@@ -149,7 +150,12 @@ export default function UtilitiesIndex() {
 
     return (
         <UtilitiesLayout>
-            <Head title="Developer Utilities | Your Name" />
+            <SEO
+                title="vyPal.me Utilities"
+                description="A collection of handy tools for web developers and designers including color palettes, flexbox playground, SVG animator, and algorithm visualizers."
+                keywords="developer tools, utilities, web development, design tools, SVG animator, flexbox, algorithms, color palette"
+                tags={['utils', 'svg', 'flexbox', 'css', 'colors', 'captcha']}
+            />
 
             <div className="mx-auto max-w-6xl">
                 <div className="mb-12 text-center">

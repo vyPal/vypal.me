@@ -1,5 +1,5 @@
+import SEO from '@/components/SEO';
 import UtilitiesLayout from '@/layouts/UtilitiesLayout';
-import { Head } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 
 interface FlexItemProps {
@@ -159,7 +159,12 @@ export default function FlexboxPlayground() {
 
     return (
         <UtilitiesLayout currentUtility="CSS Flexbox Playground">
-            <Head title="CSS Flexbox Playground | Utilities" />
+            <SEO
+                title="CSS Flexbox Playground | vyPal.me Utilities"
+                description="Interactively learn and experiment with CSS Flexbox properties. Visualize flexbox layouts in real-time and generate code for your projects."
+                keywords="flexbox, CSS, layout, web design, interactive playground, CSS generator, front-end tools"
+                tags={['flexbox', 'css', 'layout', 'web design', 'code generator']}
+            />
 
             <div className="mx-auto max-w-7xl">
                 <h1 className="mb-6 text-3xl font-bold">CSS Flexbox Playground</h1>

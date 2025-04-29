@@ -1,5 +1,5 @@
+import SEO from '@/components/SEO';
 import UtilitiesLayout from '@/layouts/UtilitiesLayout';
-import { Head } from '@inertiajs/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 // Node types for grid
@@ -894,7 +894,12 @@ export default function PathfindingVisualizer() {
 
     return (
         <UtilitiesLayout currentUtility="Algorithm Visualizer">
-            <Head title="Pathfinding Algorithm Visualizer | Developer Utilities" />
+            <SEO
+                title="Pathfinding Algorithm Visualizer | vyPal.me Utilities"
+                description="Visualize how different pathfinding algorithms find routes through a maze. Compare Dijkstra's, A*, BFS, DFS, and more algorithms in real-time."
+                keywords="pathfinding algorithms, maze solving, Dijkstra, A*, BFS, DFS, algorithm comparison, interactive visualization"
+                tags={['pathfinding', 'algorithms', 'visualization', 'maze', 'Dijkstra', 'A*', 'BFS', 'DFS']}
+            />
 
             <div className="mx-auto max-w-7xl">
                 <h1 className="mb-6 text-3xl font-bold">Pathfinding Algorithm Visualizer</h1>

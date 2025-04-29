@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CaptchaController;
 use App\Http\Controllers\LinkController;
+use App\Http\Controllers\OGImageController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -23,6 +24,9 @@ Route::middleware([
     Route::delete('/links/{link}', [LinkController::class, 'destroy'])->name('links.destroy');
     Route::post('/links/reorder', [LinkController::class, 'reorder'])->name('links.reorder');
 });
+
+Route::get('/api/og-image', [OGImageController::class, 'generate'])
+    ->name('og.generate');
 
 Route::prefix('captcha')->group(function () {
     Route::post('/generate', [CaptchaController::class, 'generate'])->name('captcha.generate');

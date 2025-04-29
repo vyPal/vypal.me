@@ -1,5 +1,5 @@
 import { type SharedData } from '@/types';
-import { Head, usePage } from '@inertiajs/react';
+import { usePage } from '@inertiajs/react';
 import { useEffect, useRef, useState } from 'react';
 
 // Components
@@ -13,6 +13,7 @@ import NavBar from '@/components/sections/NavBar';
 import OrganizationsSection from '@/components/sections/OrganizationsSection';
 import ProjectsSection from '@/components/sections/ProjectsSection';
 import SkillsSection from '@/components/sections/SkillsSection';
+import SEO from '@/components/SEO';
 
 export default function Home() {
     const { auth } = usePage<SharedData>().props;
@@ -348,10 +349,11 @@ export default function Home() {
 
     return (
         <>
-            <Head title="Jakub Palacký - Portfolio">
-                <link rel="preconnect" href="https://fonts.bunny.net" />
-                <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
-            </Head>
+            <SEO
+                title="Jakub Palacký - Home | Portfolio"
+                description="Welcome to my portfolio showcasing my work as a full-stack developer specializing in modern web technologies."
+                keywords="portfolio, full-stack, developer, react, laravel, inertia"
+            />
 
             {isLoading ? (
                 <div className="bg-background fixed inset-0 flex items-center justify-center">

@@ -1,5 +1,5 @@
+import SEO from '@/components/SEO';
 import UtilitiesLayout from '@/layouts/UtilitiesLayout';
-import { Head } from '@inertiajs/react';
 import { useState } from 'react';
 
 export default function ColorPalette() {
@@ -118,7 +118,12 @@ export default function ColorPalette() {
 
     return (
         <UtilitiesLayout currentUtility="Color Palette Generator">
-            <Head title="Color Palette Generator | Utilities" />
+            <SEO
+                title="Color Palette Generator | vyPal.me Utilities"
+                description="Create harmonious color schemes for your design projects. Generate complementary, analogous and triadic color palettes with ease."
+                keywords="color palette, design tools, web design, color scheme, color theory, harmonious colors"
+                tags={['colors', 'design', 'palette', 'web design', 'color scheme']}
+            />
 
             <div className="mx-auto max-w-4xl">
                 <h1 className="mb-6 text-3xl font-bold">Color Palette Generator</h1>

@@ -1,5 +1,5 @@
+import SEO from '@/components/SEO';
 import UtilitiesLayout from '@/layouts/UtilitiesLayout';
-import { Head } from '@inertiajs/react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 interface Point {
@@ -367,7 +367,12 @@ export default function SvgAnimator() {
 
     return (
         <UtilitiesLayout currentUtility="SVG Path Animator">
-            <Head title="SVG Path Animator | Utilities" />
+            <SEO
+                title="SVG Path Animator | vyPal.me Utilities"
+                description="Create and animate SVG paths with an interactive editor. Design, customize, and generate code for your SVG animations with real-time preview."
+                keywords="SVG, animation, path editor, interactive, web animation, SVG code generator, creative tools"
+                tags={['svg', 'animation', 'design', 'path', 'interactive', 'code generator']}
+            />
 
             <div className="mx-auto max-w-7xl">
                 <h1 className="mb-6 text-3xl font-bold">SVG Path Animator</h1>

@@ -1,5 +1,6 @@
+import SEO from '@/components/SEO';
 import UtilitiesLayout from '@/layouts/UtilitiesLayout';
-import { Head, Link } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 
 export default function AlgorithmVisualizerIndex() {
     const algorithmCategories = [
@@ -34,7 +35,12 @@ export default function AlgorithmVisualizerIndex() {
 
     return (
         <UtilitiesLayout>
-            <Head title="Algorithm Visualizer | Developer Utilities" />
+            <SEO
+                title="Algorithm Visualizer | vyPal.me Utilities"
+                description="Interactive visualizations of common algorithms to understand how they work. Watch algorithms in action step-by-step with detailed explanations."
+                keywords="algorithms, visualizer, sorting algorithms, pathfinding, educational tools, computer science, interactive learning"
+                tags={['algorithms', 'visualization', 'sorting', 'pathfinding', 'educational', 'interactive']}
+            />
 
             <div className="mx-auto max-w-6xl">
                 <div className="mb-12 text-center">

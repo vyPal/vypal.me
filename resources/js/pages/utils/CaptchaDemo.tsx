@@ -1,9 +1,9 @@
 import UtilitiesLayout from '@/layouts/UtilitiesLayout';
 import { CaptchaGame, CaptchaGameResult, captchaSystem } from '@/utilities/captcha/CaptchaEngine';
-import { Head } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 
 // Import the liquid level matcher game (assuming it's been registered with the system)
+import SEO from '@/components/SEO';
 import '@/utilities/captcha/games/LiquidLevelMatcher';
 
 export default function CaptchaDemo() {
@@ -72,7 +72,12 @@ POST /api/captcha/verify
 
     return (
         <UtilitiesLayout currentUtility="CAPTCHA Minigame">
-            <Head title="CAPTCHA Minigame | Utilities" />
+            <SEO
+                title="CAPTCHA Minigame System | vyPal.me Utilities"
+                description="A fun alternative to traditional CAPTCHAs using interactive mini-games to verify human users while providing an engaging experience."
+                keywords="CAPTCHA, mini-games, human verification, interactive CAPTCHA, user experience, gamification"
+                tags={['captcha', 'games', 'security', 'user experience', 'interactive']}
+            />
 
             <div className="mx-auto max-w-7xl">
                 <h1 className="mb-6 text-3xl font-bold">CAPTCHA Minigame System</h1>

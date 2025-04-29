@@ -1,5 +1,5 @@
+import SEO from '@/components/SEO';
 import UtilitiesLayout from '@/layouts/UtilitiesLayout';
-import { Head } from '@inertiajs/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 // Define types
@@ -513,7 +513,12 @@ export default function SortingVisualizer() {
 
     return (
         <UtilitiesLayout currentUtility="Algorithm Visualizer">
-            <Head title="Sorting Algorithm Visualizer | Developer Utilities" />
+            <SEO
+                title="Sorting Algorithm Visualizer | vyPal.me Utilities"
+                description="Watch how different sorting algorithms organize data step-by-step. Compare bubble sort, quick sort, merge sort, and more with interactive controls."
+                keywords="sorting algorithms, algorithm visualization, bubble sort, quick sort, merge sort, insertion sort, selection sort, educational"
+                tags={['sorting', 'algorithms', 'visualization', 'bubble sort', 'quick sort', 'merge sort', 'comparison']}
+            />
 
             <div className="mx-auto max-w-7xl">
                 <h1 className="mb-6 text-3xl font-bold">Sorting Algorithm Visualizer</h1>

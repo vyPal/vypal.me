@@ -27,7 +27,8 @@ export default function SEO({
 
     // Use dynamic OG image if not explicitly provided
     const ogImage =
-        image || `/api/og-image?title=${encodeURIComponent(title.split(' | ')[0])}&path=${encodeURIComponent(window.location.pathname)}${tagsParam}`;
+        image ||
+        `https://vypal.me/api/og-image?title=${encodeURIComponent(title.split(' | ')[0])}&path=${encodeURIComponent(window.location.pathname)}${tagsParam}`;
 
     return (
         <Head>

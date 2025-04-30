@@ -38,9 +38,25 @@ export default function Dashboard() {
                             </div>
                         </div>
                     </Link>
-                    <div className="border-sidebar-border/70 dark:border-sidebar-border relative aspect-video overflow-hidden rounded-xl border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
+                    <Link
+                        href="/dashboard/polls"
+                        className="border-sidebar-border/70 dark:border-sidebar-border group relative aspect-video overflow-hidden rounded-xl border bg-gray-800 transition-colors hover:bg-gray-700"
+                    >
+                        <div className="absolute inset-0 flex size-full flex-col justify-between p-4">
+                            <div>
+                                <h3 className="text-lg font-semibold transition-colors group-hover:text-green-400">Poll Manager</h3>
+                                <p className="text-sm text-gray-400">Create and manage interactive polls for site visitors</p>
+                            </div>
+                            <div className="flex justify-end">
+                                <span className="rounded-full bg-green-500 p-1.5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z" />
+                                        <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z" />
+                                    </svg>
+                                </span>
+                            </div>
+                        </div>
+                    </Link>
                     <a
                         href="https://umami.vypal.me/websites/7b165982-1021-46e6-aa14-d99fc5049972"
                         target="_blank"

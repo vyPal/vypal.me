@@ -35,6 +35,10 @@ export interface SharedData {
                 email: string;
             } | null;
         };
+        flash: {
+            success?: string;
+            results?: string;
+        };
     };
     [key: string]: unknown;
 }

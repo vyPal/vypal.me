@@ -3,6 +3,8 @@
 use App\Http\Controllers\CaptchaController;
 use App\Http\Controllers\LinkController;
 use App\Http\Controllers\OGImageController;
+use App\Http\Controllers\PollController;
+use App\Http\Controllers\PublicPollController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -31,6 +33,18 @@ Route::get('/api/og-image', [OGImageController::class, 'generate'])
 Route::prefix('captcha')->group(function () {
     Route::post('/generate', [CaptchaController::class, 'generate'])->name('captcha.generate');
     Route::post('/verify', [CaptchaController::class, 'verify'])->name('captcha.verify');
+});
+
+Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () {
+    Route::resource('polls', PollController::class);
+    Route::post('polls/reorder', [PollController::class, 'reorder'])->name('polls.reorder');
+});
+
+// Public routes
+Route::prefix('polls')->name('polls.')->group(function () {
+    Route::get('/', [PublicPollController::class, 'index'])->name('index');
+    Route::get('/{id}', [PublicPollController::class, 'show'])->name('show');
+    Route::post('/{id}/vote', [PublicPollController::class, 'vote'])->name('vote');
 });
 
 require __DIR__.'/settings.php';

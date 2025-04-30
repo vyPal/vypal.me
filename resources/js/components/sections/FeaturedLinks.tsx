@@ -36,6 +36,22 @@ export default function FeaturedLinksSection({ scrollY }: FeaturedLinksSectionPr
             color: 'from-purple-500/20 to-pink-500/20 dark:from-purple-500/10 dark:to-pink-500/10',
         },
         {
+            title: 'Interactive Polls',
+            description: 'Vote in interactive polls and see real-time results, or suggest new poll topics.',
+            icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={1.5}
+                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
+                    />
+                </svg>
+            ),
+            href: '/polls',
+            color: 'from-emerald-500/20 to-teal-500/20 dark:from-emerald-500/10 dark:to-teal-500/10 hover:from-emerald-500/30 hover:to-teal-500/30 dark:hover:from-emerald-500/20 dark:hover:to-teal-500/20',
+        },
+        {
             title: 'Link Tree',
             description: 'All my important links in one place - social media, projects, and professional profiles.',
             icon: (

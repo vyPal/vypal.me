@@ -353,6 +353,7 @@ export default function Home() {
                 title="Jakub Palacký - Home | Portfolio"
                 description="Welcome to my portfolio showcasing my work as a full-stack developer specializing in modern web technologies."
                 keywords="portfolio, full-stack, developer, react, laravel, inertia"
+                url="https://vypal.me/"
             />
 
             {isLoading ? (

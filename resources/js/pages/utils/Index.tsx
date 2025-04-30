@@ -155,6 +155,7 @@ export default function UtilitiesIndex() {
                 description="A collection of handy tools for web developers and designers including color palettes, flexbox playground, SVG animator, and algorithm visualizers."
                 keywords="developer tools, utilities, web development, design tools, SVG animator, flexbox, algorithms, color palette"
                 tags={['utils', 'svg', 'flexbox', 'css', 'colors', 'captcha']}
+                url="https://vypal.me/utils"
             />
 
             <div className="mx-auto max-w-6xl">

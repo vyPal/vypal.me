@@ -77,6 +77,7 @@ POST /api/captcha/verify
                 description="A fun alternative to traditional CAPTCHAs using interactive mini-games to verify human users while providing an engaging experience."
                 keywords="CAPTCHA, mini-games, human verification, interactive CAPTCHA, user experience, gamification"
                 tags={['captcha', 'games', 'security', 'user experience', 'interactive']}
+                url="https://vypal.me/utils/captcha-demo"
             />
 
             <div className="mx-auto max-w-7xl">

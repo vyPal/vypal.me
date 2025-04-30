@@ -372,6 +372,7 @@ export default function SvgAnimator() {
                 description="Create and animate SVG paths with an interactive editor. Design, customize, and generate code for your SVG animations with real-time preview."
                 keywords="SVG, animation, path editor, interactive, web animation, SVG code generator, creative tools"
                 tags={['svg', 'animation', 'design', 'path', 'interactive', 'code generator']}
+                url="https://vypal.me/utils/svg-animator"
             />
 
             <div className="mx-auto max-w-7xl">

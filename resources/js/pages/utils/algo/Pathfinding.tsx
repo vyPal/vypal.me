@@ -899,6 +899,7 @@ export default function PathfindingVisualizer() {
                 description="Visualize how different pathfinding algorithms find routes through a maze. Compare Dijkstra's, A*, BFS, DFS, and more algorithms in real-time."
                 keywords="pathfinding algorithms, maze solving, Dijkstra, A*, BFS, DFS, algorithm comparison, interactive visualization"
                 tags={['pathfinding', 'algorithms', 'visualization', 'maze', 'Dijkstra', 'A*', 'BFS', 'DFS']}
+                url="https://vypal.me/utils/algo/pathfinding"
             />
 
             <div className="mx-auto max-w-7xl">

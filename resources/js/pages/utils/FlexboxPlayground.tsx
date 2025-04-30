@@ -164,6 +164,7 @@ export default function FlexboxPlayground() {
                 description="Interactively learn and experiment with CSS Flexbox properties. Visualize flexbox layouts in real-time and generate code for your projects."
                 keywords="flexbox, CSS, layout, web design, interactive playground, CSS generator, front-end tools"
                 tags={['flexbox', 'css', 'layout', 'web design', 'code generator']}
+                url="https://vypal.me/utils/flexbox-playground"
             />
 
             <div className="mx-auto max-w-7xl">

@@ -40,6 +40,7 @@ export default function AlgorithmVisualizerIndex() {
                 description="Interactive visualizations of common algorithms to understand how they work. Watch algorithms in action step-by-step with detailed explanations."
                 keywords="algorithms, visualizer, sorting algorithms, pathfinding, educational tools, computer science, interactive learning"
                 tags={['algorithms', 'visualization', 'sorting', 'pathfinding', 'educational', 'interactive']}
+                url="https://vypal.me/utils/algo"
             />
 
             <div className="mx-auto max-w-6xl">

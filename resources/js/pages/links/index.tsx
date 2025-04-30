@@ -152,6 +152,7 @@ export default function Index({ links }: { links: Link[] }) {
                 title="vyPal's Links"
                 description="Connect with me across platforms. Find my social profiles, projects, websites, and code repositories all in one place."
                 keywords="vyPal, Jakub Palacký, links, social media, portfolio, projects, developer links"
+                url="https://vypal.me/links"
             />
 
             <div className="min-h-screen bg-gray-900 py-16">

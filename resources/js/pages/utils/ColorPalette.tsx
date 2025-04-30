@@ -123,6 +123,7 @@ export default function ColorPalette() {
                 description="Create harmonious color schemes for your design projects. Generate complementary, analogous and triadic color palettes with ease."
                 keywords="color palette, design tools, web design, color scheme, color theory, harmonious colors"
                 tags={['colors', 'design', 'palette', 'web design', 'color scheme']}
+                url="https://vypal.me/utils/color-palette"
             />
 
             <div className="mx-auto max-w-4xl">

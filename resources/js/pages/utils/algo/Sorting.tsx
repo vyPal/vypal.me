@@ -518,6 +518,7 @@ export default function SortingVisualizer() {
                 description="Watch how different sorting algorithms organize data step-by-step. Compare bubble sort, quick sort, merge sort, and more with interactive controls."
                 keywords="sorting algorithms, algorithm visualization, bubble sort, quick sort, merge sort, insertion sort, selection sort, educational"
                 tags={['sorting', 'algorithms', 'visualization', 'bubble sort', 'quick sort', 'merge sort', 'comparison']}
+                url="https://vypal.me/utils/algo/sorting"
             />
 
             <div className="mx-auto max-w-7xl">

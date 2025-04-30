@@ -7,7 +7,7 @@ interface SEOProps {
     image?: string;
     type?: string;
     url?: string;
-    tags?: string[]; // New tags property
+    tags?: string[];
 }
 
 export default function SEO({
@@ -17,8 +17,11 @@ export default function SEO({
     image,
     type = 'website',
     url,
-    tags = [], // Default to empty array
+    tags = [],
 }: SEOProps) {
+    if (typeof window === 'undefined' && !url) {
+        return null;
+    }
     // Use the current URL if none provided
     const pageUrl = url || window.location.href;
 
@@ -28,7 +31,7 @@ export default function SEO({
     // Use dynamic OG image if not explicitly provided
     const ogImage =
         image ||
-        `https://vypal.me/api/og-image?title=${encodeURIComponent(title.split(' | ')[0])}&path=${encodeURIComponent(window.location.pathname)}${tagsParam}`;
+        `https://vypal.me/api/og-image?title=${encodeURIComponent(title.split(' | ')[0])}&path=${encodeURIComponent(typeof window === 'undefined' ? pageUrl.replace('https://vypal.me', '') : window.location.pathname)}${tagsParam}`;
 
     return (
         <Head>

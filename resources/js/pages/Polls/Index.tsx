@@ -78,7 +78,7 @@ export default function PollsIndex({ polls }: Props) {
 
     const saveReordering = () => {
         router.post(
-            route('polls.reorder'),
+            route('admin.polls.reorder'),
             {
                 polls: reorderedPolls.map((poll, index) => ({
                     id: poll.id,
@@ -100,7 +100,7 @@ export default function PollsIndex({ polls }: Props) {
 
     const handleDelete = (id: number) => {
         if (confirm('Are you sure you want to delete this poll?')) {
-            router.delete(route('polls.destroy', id));
+            router.delete(route('admin.polls.destroy', id));
         }
     };
 
@@ -143,7 +143,7 @@ export default function PollsIndex({ polls }: Props) {
                                 >
                                     Reorder Polls
                                 </button>
-                                <Link href={route('polls.create')} className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600">
+                                <Link href={route('admin.polls.create')} className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600">
                                     Create New Poll
                                 </Link>
                             </>
@@ -193,7 +193,7 @@ export default function PollsIndex({ polls }: Props) {
                                     {!isReordering && (
                                         <div className="flex space-x-2">
                                             <Link
-                                                href={route('polls.edit', poll.id)}
+                                                href={route('admin.polls.edit', poll.id)}
                                                 className="rounded-md bg-amber-500 px-3 py-1 text-sm text-white hover:bg-amber-600"
                                             >
                                                 Edit

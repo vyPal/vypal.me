@@ -118,7 +118,7 @@ export default function CreatePoll() {
             ];
         }
 
-        router.post(route('polls.store'), formData);
+        router.post(route('admin.polls.store'), formData);
     };
 
     const renderIconPreview = (iconName: string) => {

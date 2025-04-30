@@ -53,7 +53,7 @@ class PollController extends Controller {
             ]);
         }
 
-        return redirect()->route('polls.index')->with('success', 'Poll created successfully!');
+        return redirect()->route('admin.polls.index')->with('success', 'Poll created successfully!');
     }
 
     public function reorder(Request $request) {

@@ -35,9 +35,9 @@ Route::prefix('captcha')->group(function () {
     Route::post('/verify', [CaptchaController::class, 'verify'])->name('captcha.verify');
 });
 
-Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () {
+Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('admin.')->group(function () {
     Route::resource('polls', PollController::class);
-    Route::post('polls/reorder', [PollController::class, 'reorder'])->name('polls.reorder');
+    Route::post('polls/reorder', [PollController::class, 'reorder'])->name('admin.polls.reorder');
 });
 
 // Public routes

@@ -73,7 +73,7 @@ export const CaptchaMinigame: React.FC<CaptchaMinigameProps> = ({
       });
 
       onVerify(response.data.success);
-    } catch (err) {
+    } catch  {
       setError('Verification failed');
       onVerify(false);
     }

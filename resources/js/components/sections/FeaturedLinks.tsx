@@ -34,7 +34,7 @@ export default function FeaturedLinksSection({ scrollY }: FeaturedLinksSectionPr
             ),
             href: '/utils',
             color: 'from-purple-500/20 to-pink-500/20 dark:from-purple-500/10 dark:to-pink-500/10',
-        },
+        } /*
         {
             title: 'Interactive Polls',
             description: 'Vote in interactive polls and see real-time results, or suggest new poll topics.',
@@ -50,7 +50,7 @@ export default function FeaturedLinksSection({ scrollY }: FeaturedLinksSectionPr
             ),
             href: '/polls',
             color: 'from-emerald-500/20 to-teal-500/20 dark:from-emerald-500/10 dark:to-teal-500/10 hover:from-emerald-500/30 hover:to-teal-500/30 dark:hover:from-emerald-500/20 dark:hover:to-teal-500/20',
-        },
+        },*/,
         {
             title: 'Link Tree',
             description: 'All my important links in one place - social media, projects, and professional profiles.',

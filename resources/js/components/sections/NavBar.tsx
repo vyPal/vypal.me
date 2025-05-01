@@ -69,6 +69,12 @@ export default function NavBar({ auth }: NavBarProps) {
                         </SmoothScrollLink>
                     </div>
 
+                    <div className="border-l-2 border-[#19140035] dark:border-[#3E3E3A]">&nbsp;</div>
+
+                    <Link href={route('availability')} className="...">
+                        Availability
+                    </Link>
+
                     {auth.user ? (
                         <Link
                             href={route('dashboard')}

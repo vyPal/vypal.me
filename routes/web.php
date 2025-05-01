@@ -30,6 +30,16 @@ Route::middleware([
 Route::get('/api/og-image', [OGImageController::class, 'generate'])
     ->name('og.generate');
 
+Route::get('/availability', [App\Http\Controllers\AvailabilityController::class, 'show'])
+    ->name('availability');
+
+Route::middleware(['auth'])->prefix('dashboard')->group(function () {
+    Route::get('/availability', [App\Http\Controllers\AvailabilityController::class, 'edit'])
+        ->name('dashboard.availability.edit');
+    Route::post('/availability', [App\Http\Controllers\AvailabilityController::class, 'update'])
+        ->name('dashboard.availability.update');
+});
+
 Route::prefix('captcha')->group(function () {
     Route::post('/generate', [CaptchaController::class, 'generate'])->name('captcha.generate');
     Route::post('/verify', [CaptchaController::class, 'verify'])->name('captcha.verify');

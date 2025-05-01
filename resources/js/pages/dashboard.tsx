@@ -1,4 +1,3 @@
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
@@ -57,6 +56,28 @@ export default function Dashboard() {
                             </div>
                         </div>
                     </Link>
+                    <Link
+                        href="/dashboard/availability"
+                        className="border-sidebar-border/70 dark:border-sidebar-border group relative aspect-video overflow-hidden rounded-xl border bg-gray-800 transition-colors hover:bg-gray-700"
+                    >
+                        <div className="absolute inset-0 flex size-full flex-col justify-between p-4">
+                            <div>
+                                <h3 className="text-lg font-semibold transition-colors group-hover:text-amber-400">Availability Manager</h3>
+                                <p className="text-sm text-gray-400">Manage your availability status and project backlog</p>
+                            </div>
+                            <div className="flex justify-end">
+                                <span className="rounded-full bg-amber-500 p-1.5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                        <path
+                                            fillRule="evenodd"
+                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                                            clipRule="evenodd"
+                                        />
+                                    </svg>
+                                </span>
+                            </div>
+                        </div>
+                    </Link>
                     <a
                         href="https://umami.vypal.me/websites/7b165982-1021-46e6-aa14-d99fc5049972"
                         target="_blank"
@@ -80,9 +101,6 @@ export default function Dashboard() {
                             </div>
                         </div>
                     </a>
-                </div>
-                <div className="border-sidebar-border/70 dark:border-sidebar-border relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border md:min-h-min">
-                    <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
                 </div>
             </div>
         </AppLayout>

@@ -13,8 +13,8 @@ return new class extends Migration
             $table->dateTime('available_from')->nullable();
             $table->dateTime('available_until')->nullable();
             $table->boolean('is_available_now')->default(false);
-            $table->string('busy_message')->default("I'm currently busy with other projects.");
-            $table->string('available_message')->default("I have time now! Let's work together.");
+            $table->string('busy_message')->default("I am currently busy with other projects.");
+            $table->string('available_message')->default("I might have time now! Do you have a project in mind?");
             $table->json('project_backlog')->nullable(); // Store backlog items with additional properties
             $table->timestamps();
         });

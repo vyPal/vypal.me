@@ -4,6 +4,7 @@ use App\Http\Controllers\CaptchaController;
 use App\Http\Controllers\LinkController;
 use App\Http\Controllers\OGImageController;
 use App\Http\Controllers\PollController;
+use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\PublicPollController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -56,6 +57,8 @@ Route::prefix('polls')->name('polls.')->group(function () {
     Route::get('/{id}', [PublicPollController::class, 'show'])->name('show');
     Route::post('/{id}/vote', [PublicPollController::class, 'vote'])->name('vote');
 });
+
+Route::get('/privacy-policy/{appName}', [PrivacyPolicyController::class, 'show'])->name('privacy-policy.show');
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

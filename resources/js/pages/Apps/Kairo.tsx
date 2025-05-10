@@ -389,7 +389,7 @@ export default function Kairo({ auth }: { auth: SharedData['auth'] }) {
                                             </a>
                                         </div>
                                         <a
-                                            href="mailto:info@vypal.me?subject=Kairo%20for%20iOS%20Request&body=Hi%2C%20I%27m%20interested%20in%20Kairo%20for%20iOS.%20Please%20let%20me%20know%20when%20it%20will%20be%20available."
+                                            href="mailto:vypal420@proton.me?subject=Kairo%20for%20iOS%20Request&body=Hi%2C%20I%27m%20interested%20in%20Kairo%20for%20iOS.%20Please%20let%20me%20know%20when%20it%20will%20be%20available."
                                             className="mt-2 text-xs underline hover:text-white/80"
                                         >
                                             Request info

@@ -13,6 +13,14 @@ Route::get('/', function () {
     return Inertia::render('home');
 })->name('home');
 
+Route::get('/apps', function () {
+    return Inertia::render('Apps/Index');
+})->name('apps.index');
+
+Route::get('/apps/kairo', function () {
+    return Inertia::render('Apps/Kairo');
+})->name('apps.kairo');
+
 Route::get('/{alias}', [LinkController::class, 'index'])->where('alias', 'links|link|l')->name('links.index');
 
 Route::middleware([

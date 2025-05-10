@@ -34,6 +34,22 @@ export default function FeaturedLinksSection({ scrollY }: FeaturedLinksSectionPr
             ),
             href: '/utils',
             color: 'from-purple-500/20 to-pink-500/20 dark:from-purple-500/10 dark:to-pink-500/10',
+        },
+        {
+            title: 'My Apps',
+            description: 'Discover my mobile applications - simple, affordable, and ad-free with a focus on user privacy.',
+            icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={1.5}
+                        d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
+                    />
+                </svg>
+            ),
+            href: '/apps',
+            color: 'from-[#79C3C2]/20 to-[#6CA8C5]/20 dark:from-[#79C3C2]/10 dark:to-[#6CA8C5]/10',
         } /*
         {
             title: 'Interactive Polls',
@@ -129,7 +145,7 @@ export default function FeaturedLinksSection({ scrollY }: FeaturedLinksSectionPr
                     </p>
                 </div>
 
-                <div className="mx-auto grid max-w-5xl gap-6 sm:grid-cols-2 lg:grid-cols-2">
+                <div className="mx-auto grid max-w-5xl gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     {featuredLinks.map((link, index) => (
                         <Link
                             key={index}

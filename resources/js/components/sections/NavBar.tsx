@@ -55,18 +55,21 @@ export default function NavBar({ auth }: NavBarProps) {
 
                 <div className="flex items-center gap-8">
                     <div className="hidden space-x-8 md:flex">
-                        <SmoothScrollLink href="#about" className="text-sm transition-colors hover:text-[#8847BB] dark:hover:text-[#F9BAEE]">
+                        <SmoothScrollLink href="/#about" className="text-sm transition-colors hover:text-[#8847BB] dark:hover:text-[#F9BAEE]">
                             About
                         </SmoothScrollLink>
-                        <SmoothScrollLink href="#skills" className="text-sm transition-colors hover:text-[#8847BB] dark:hover:text-[#F9BAEE]">
+                        <SmoothScrollLink href="/#skills" className="text-sm transition-colors hover:text-[#8847BB] dark:hover:text-[#F9BAEE]">
                             Skills
                         </SmoothScrollLink>
-                        <SmoothScrollLink href="#projects" className="text-sm transition-colors hover:text-[#8847BB] dark:hover:text-[#F9BAEE]">
+                        <SmoothScrollLink href="/#projects" className="text-sm transition-colors hover:text-[#8847BB] dark:hover:text-[#F9BAEE]">
                             Projects
                         </SmoothScrollLink>
-                        <SmoothScrollLink href="#contact" className="text-sm transition-colors hover:text-[#8847BB] dark:hover:text-[#F9BAEE]">
+                        <SmoothScrollLink href="/#contact" className="text-sm transition-colors hover:text-[#8847BB] dark:hover:text-[#F9BAEE]">
                             Contact
                         </SmoothScrollLink>
+                        <Link href={route('apps.index')} className="text-sm transition-colors hover:text-[#8847BB] dark:hover:text-[#F9BAEE]">
+                            Apps
+                        </Link>
                     </div>
 
                     <div className="border-l-2 border-[#19140035] dark:border-[#3E3E3A]">&nbsp;</div>

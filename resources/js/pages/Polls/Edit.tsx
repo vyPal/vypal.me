@@ -1,31 +1,50 @@
 import { Head, Link, useForm } from '@inertiajs/react';
 import { motion } from 'framer-motion';
 import { CalendarIcon, PlusCircleIcon, XIcon } from 'lucide-react';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 
 // Components
 import AppLayout from '@/layouts/app-layout';
 
-interface PollFormData {
+interface PollOption {
+    id?: number;
+    text: string;
+    votes_count?: number;
+}
+
+interface Poll {
+    id: number;
     title: string;
     description: string | null;
     is_public: boolean;
     multiple_choice: boolean;
     ends_at: string | null;
-    options: { text: string }[];
+    options: PollOption[];
+    all_votes_count?: number;
 }
 
-export default function CreatePoll() {
-    const { data, setData, post, processing, errors, reset } = useForm<PollFormData>({
-        title: '',
-        description: '',
-        is_public: true,
-        multiple_choice: false,
-        ends_at: null,
-        options: [{ text: '' }, { text: '' }],
+interface EditPollProps {
+    poll: Poll;
+}
+
+export default function EditPoll({ poll }: EditPollProps) {
+    const { data, setData, put, processing, errors, reset } = useForm<Poll>({
+        id: poll.id,
+        title: poll.title,
+        description: poll.description || '',
+        is_public: poll.is_public,
+        multiple_choice: poll.multiple_choice,
+        ends_at: poll.ends_at,
+        options: poll.options || [],
     });
 
-    const [showDatePicker, setShowDatePicker] = useState(false);
+    const [showDatePicker, setShowDatePicker] = useState(!!poll.ends_at);
+    const [hasVotes, setHasVotes] = useState(false);
+
+    useEffect(() => {
+        // Check if any options have votes
+        setHasVotes(poll.all_votes_count !== undefined && poll.all_votes_count > 0);
+    }, [poll]);
 
     const addOption = () => {
         setData('options', [...data.options, { text: '' }]);
@@ -41,14 +60,20 @@ export default function CreatePoll() {
 
     const updateOption = (index: number, value: string) => {
         const updatedOptions = [...data.options];
-        updatedOptions[index] = { text: value };
+        updatedOptions[index] = {
+            ...updatedOptions[index],
+            text: value,
+        };
         setData('options', updatedOptions);
     };
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        post(route('polls.store'), {
-            onSuccess: () => reset(),
+        put(route('polls.update', poll.id), {
+            preserveScroll: true,
+            onSuccess: () => {
+                // Show success message
+            },
         });
     };
 
@@ -69,20 +94,32 @@ export default function CreatePoll() {
     };
 
     return (
-        <AppLayout title="Create New Poll">
-            <Head title="Create New Poll" />
+        <AppLayout title="Edit Poll">
+            <Head title={`Edit Poll: ${poll.title}`} />
 
             <div className="py-12">
                 <div className="mx-auto max-w-3xl sm:px-6 lg:px-8">
                     <div className="mb-8">
                         <div className="flex items-center justify-between">
-                            <h1 className="text-2xl font-semibold tracking-tight">Create New Poll</h1>
-                            <Link href={route('polls.index')} className="text-muted-foreground hover:text-foreground text-sm">
-                                Back to Polls
-                            </Link>
+                            <h1 className="text-2xl font-semibold tracking-tight">Edit Poll</h1>
+                            <div className="flex space-x-4">
+                                <Link href={route('polls.show', poll.id)} className="text-muted-foreground hover:text-foreground text-sm">
+                                    View Poll
+                                </Link>
+                                <Link href={route('polls.index')} className="text-muted-foreground hover:text-foreground text-sm">
+                                    Back to Polls
+                                </Link>
+                            </div>
                         </div>
-                        <p className="text-muted-foreground mt-2 text-sm">Create a new poll and start collecting votes from your audience.</p>
+                        <p className="text-muted-foreground mt-2 text-sm">Update your poll details and options.</p>
                     </div>
+
+                    {hasVotes && (
+                        <div className="mb-6 rounded-md bg-amber-50 p-4 text-sm text-amber-700 dark:bg-amber-900/20 dark:text-amber-300">
+                            <p className="font-semibold">Warning: This poll has received votes</p>
+                            <p>You can update the poll details, but you cannot modify existing options once votes have been cast.</p>
+                        </div>
+                    )}
 
                     <motion.form onSubmit={handleSubmit} className="space-y-8" variants={formAnimation} initial="hidden" animate="show">
                         {/* Poll Basic Info */}
@@ -143,8 +180,9 @@ export default function CreatePoll() {
                                         checked={data.multiple_choice}
                                         onChange={() => setData('multiple_choice', !data.multiple_choice)}
                                         className="h-4 w-4 rounded border-[#19140035] text-[#8847BB] focus:ring-2 focus:ring-[#8847BB]/20 dark:border-[#3E3E3A] dark:text-[#F9BAEE] dark:focus:ring-[#F9BAEE]/20"
+                                        disabled={hasVotes} // Disable if votes exist
                                     />
-                                    <label htmlFor="multiple_choice" className="text-sm">
+                                    <label htmlFor="multiple_choice" className={`text-sm ${hasVotes ? 'opacity-60' : ''}`}>
                                         Allow multiple choices
                                     </label>
                                 </div>
@@ -181,7 +219,7 @@ export default function CreatePoll() {
                                     <input
                                         id="ends_at"
                                         type="date"
-                                        value={data.ends_at || ''}
+                                        value={data.ends_at ? data.ends_at.substring(0, 10) : ''}
                                         onChange={(e) => setData('ends_at', e.target.value)}
                                         className="bg-background mt-1 w-full rounded-md border border-[#19140035] px-3 py-2 text-sm focus:border-[#8847BB] focus:ring-2 focus:ring-[#8847BB]/20 focus:outline-none dark:border-[#3E3E3A] dark:focus:border-[#F9BAEE] dark:focus:ring-[#F9BAEE]/20"
                                         min={new Date().toISOString().split('T')[0]}
@@ -204,29 +242,43 @@ export default function CreatePoll() {
                             {errors.options && <p className="mt-1 text-xs text-red-500">{errors.options}</p>}
 
                             <div className="space-y-3">
-                                {data.options.map((option, index) => (
-                                    <div key={index} className="flex items-center space-x-2">
-                                        <input
-                                            type="text"
-                                            value={option.text}
-                                            onChange={(e) => updateOption(index, e.target.value)}
-                                            className="bg-background flex-1 rounded-md border border-[#19140035] px-3 py-2 text-sm focus:border-[#8847BB] focus:ring-2 focus:ring-[#8847BB]/20 focus:outline-none dark:border-[#3E3E3A] dark:focus:border-[#F9BAEE] dark:focus:ring-[#F9BAEE]/20"
-                                            placeholder={`Option ${index + 1}`}
-                                        />
+                                {data.options.map((option, index) => {
+                                    const isExistingOption = option.id !== undefined;
+                                    const hasOptionVotes = hasVotes && isExistingOption;
 
-                                        <button
-                                            type="button"
-                                            onClick={() => removeOption(index)}
-                                            disabled={data.options.length <= 2}
-                                            className="text-muted-foreground rounded-full p-1 hover:bg-[#f5f5f3] hover:text-red-500 disabled:cursor-not-allowed disabled:opacity-30 dark:hover:bg-[#1C1C1A]"
-                                            title="Remove option"
-                                        >
-                                            <XIcon className="h-4 w-4" />
-                                        </button>
+                                    return (
+                                        <div key={option.id || index} className="flex items-center space-x-2">
+                                            <input
+                                                type="text"
+                                                value={option.text}
+                                                onChange={(e) => updateOption(index, e.target.value)}
+                                                className={`bg-background flex-1 rounded-md border border-[#19140035] px-3 py-2 text-sm focus:border-[#8847BB] focus:ring-2 focus:ring-[#8847BB]/20 focus:outline-none dark:border-[#3E3E3A] dark:focus:border-[#F9BAEE] dark:focus:ring-[#F9BAEE]/20 ${hasOptionVotes ? 'cursor-not-allowed opacity-60' : ''}`}
+                                                placeholder={`Option ${index + 1}`}
+                                                disabled={hasOptionVotes}
+                                            />
 
-                                        {errors[`options.${index}.text`] && <p className="text-xs text-red-500">{errors[`options.${index}.text`]}</p>}
-                                    </div>
-                                ))}
+                                            <button
+                                                type="button"
+                                                onClick={() => removeOption(index)}
+                                                disabled={data.options.length <= 2 || hasOptionVotes}
+                                                className="text-muted-foreground rounded-full p-1 hover:bg-[#f5f5f3] hover:text-red-500 disabled:cursor-not-allowed disabled:opacity-30 dark:hover:bg-[#1C1C1A]"
+                                                title={hasOptionVotes ? 'Cannot remove options with votes' : 'Remove option'}
+                                            >
+                                                <XIcon className="h-4 w-4" />
+                                            </button>
+
+                                            {option.votes_count !== undefined && option.votes_count > 0 && (
+                                                <span className="text-muted-foreground ml-2 text-xs">
+                                                    {option.votes_count} {option.votes_count === 1 ? 'vote' : 'votes'}
+                                                </span>
+                                            )}
+
+                                            {errors[`options.${index}.text`] && (
+                                                <p className="text-xs text-red-500">{errors[`options.${index}.text`]}</p>
+                                            )}
+                                        </div>
+                                    );
+                                })}
 
                                 <button
                                     type="button"
@@ -252,7 +304,7 @@ export default function CreatePoll() {
                                 disabled={processing}
                                 className="rounded-md bg-[#8847BB] px-4 py-2 text-sm font-medium text-white hover:bg-[#7040a0] disabled:opacity-70 dark:bg-[#8847BB] dark:hover:bg-[#9957cb]"
                             >
-                                {processing ? 'Creating...' : 'Create Poll'}
+                                {processing ? 'Saving...' : 'Update Poll'}
                             </button>
                         </motion.div>
                     </motion.form>

@@ -3,150 +3,189 @@
 namespace App\Http\Controllers;
 
 use App\Models\Poll;
+use App\Models\PollOption;
 use App\Models\PollVote;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cookie;
-use Inertia\Inertia;
-use Pest\Support\Str;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
-class PublicPollController extends Controller {
-    public function index() {
-        $polls = Poll::where('is_active', true)
-            ->orderBy('order')
-            ->with('options')
-            ->get();
+class PublicPollController extends Controller
+{
+    /**
+     * Display a listing of the public polls.
+     */
+    public function index()
+    {
+        $polls = Poll::where('is_public', true)
+            ->with(['user:id,name', 'options' => function ($query) {
+                $query->withCount('votes');
+            }])
+            ->withCount('allVotes')
+            ->latest()
+            ->paginate(12);
 
-        return Inertia::render('Polls/Public/Index', ['polls' => $polls]);
-    }
-
-    // Show specific poll
-    public function show($id) {
-        $poll = Poll::where('is_active', true)
-            ->with('options')
-            ->findOrFail($id);
-
-        // Check if user has voted using cookie
-        $voterToken = $this->getVoterToken();
-        $hasVoted = PollVote::where('poll_id', $poll->id)
-            ->where('voter_token', $voterToken)
-            ->exists();
-
-        // Get results if should show or has voted
-        $results = null;
-        if ($poll->show_results_without_voting || $hasVoted) {
-            $results = $this->getPollResults($poll);
-        }
-
-        return Inertia::render('Polls/Public/Show', [
-            'poll' => $poll,
-            'hasVoted' => $hasVoted,
-            'results' => $results,
+        return inertia('Polls/Public/Index', [
+            'polls' => [
+                'data' => $polls->items(),
+                'links' => $polls->linkCollection()->toArray(),
+                'meta' => [
+                    'current_page' => $polls->currentPage(),
+                    'last_page' => $polls->lastPage(),
+                    'per_page' => $polls->perPage(),
+                    'total' => $polls->total(),
+                ],
+            ]
         ]);
     }
 
-    // Vote on a poll
-    public function vote(Request $request, $id) {
-        $poll = Poll::where('is_active', true)->findOrFail($id);
+    /**
+     * Submit a vote for a poll option.
+     */
+    public function vote(Request $request, Poll $poll)
+    {
+        if (!$poll->is_public) {
+            abort(403, 'This poll is not public.');
+        }
+
+        if ($poll->hasEnded()) {
+            throw ValidationException::withMessages([
+                'option_id' => ['This poll has ended and is no longer accepting votes.']
+            ]);
+        }
 
         $validated = $request->validate([
-            'option_ids' => $poll->allow_multiple ? 'array|required' : 'integer|required_without:custom_answer',
-            'option_ids.*' => 'exists:poll_options,id',
-            'custom_answer' => $poll->allow_custom ? 'nullable|string|max:255' : 'prohibited',
+            'option_id' => 'required_without:option_ids|exists:poll_options,id',
+            'option_ids' => 'required_without:option_id|array|exists:poll_options,id',
         ]);
 
-        // Check if already voted
-        $voterToken = $this->getVoterToken();
-        $hasVoted = PollVote::where('poll_id', $poll->id)
-            ->where('voter_token', $voterToken)
-            ->exists();
-
-        if ($hasVoted) {
-            return redirect()->back()->with('error', 'You have already voted on this poll.');
-        }
-
-        // Process vote(s)
-        if ($poll->allow_multiple && is_array($validated['option_ids'])) {
-            foreach ($validated['option_ids'] as $optionId) {
-                PollVote::create([
-                    'poll_id' => $poll->id,
-                    'poll_option_id' => $optionId,
-                    'voter_token' => $voterToken,
-                ]);
+        // Ensure voting for options that belong to this poll
+        if (isset($validated['option_id'])) {
+            $option = PollOption::find($validated['option_id']);
+            if ($option->poll_id !== $poll->id) {
+                abort(400, 'Invalid option for this poll.');
             }
-        } else if (!$poll->allow_multiple && isset($validated['option_ids'])) {
-            PollVote::create([
-                'poll_id' => $poll->id,
-                'poll_option_id' => $validated['option_ids'],
-                'voter_token' => $voterToken,
+            $optionIds = [$option->id];
+        } else {
+            $options = PollOption::whereIn('id', $validated['option_ids'])
+                ->where('poll_id', $poll->id)
+                ->get();
+            
+            if (count($options) !== count($validated['option_ids'])) {
+                abort(400, 'One or more invalid options for this poll.');
+            }
+            
+            if (!$poll->multiple_choice && count($options) > 1) {
+                abort(400, 'This poll does not allow multiple choices.');
+            }
+            
+            $optionIds = $options->pluck('id')->toArray();
+        }
+
+        // Get or create a voter ID for non-authenticated users
+        $voterId = Auth::check() ? null : session()->get('voter_id', Str::uuid());
+        if (!Auth::check()) {
+            session()->put('voter_id', $voterId);
+        }
+        
+        $userId = Auth::id();
+        $ipAddress = $request->ip();
+
+        // Check if user already voted in this poll
+        $hasVoted = false;
+        if ($userId) {
+            $hasVoted = PollVote::whereHas('option', function($query) use ($poll) {
+                $query->where('poll_id', $poll->id);
+            })->where('user_id', $userId)->exists();
+        } elseif ($voterId) {
+            $hasVoted = PollVote::whereHas('option', function($query) use ($poll) {
+                $query->where('poll_id', $poll->id);
+            })->where('voter_id', $voterId)->exists();
+        }
+
+        if ($hasVoted && !$poll->multiple_choice) {
+            throw ValidationException::withMessages([
+                'option_id' => ['You have already voted in this poll.']
             ]);
         }
 
-        // Handle custom answer if provided
-        if ($poll->allow_custom && isset($validated['custom_answer'])) {
-            PollVote::create([
-                'poll_id' => $poll->id,
-                'custom_answer' => $validated['custom_answer'],
-                'voter_token' => $voterToken,
-            ]);
-        }
-
-        // Get and return results
-        $results = $this->getPollResults($poll);
-
-        return redirect()->back()->with([
-            'success' => 'Your vote has been recorded!',
-            'results' => $results
-        ]);
-    }
-
-    // Get voter token from cookie or create new one
-    private function getVoterToken() {
-        $token = request()->cookie('voter_token');
-
-        if (!$token) {
-            $token = Str::random(40);
-            Cookie::queue('voter_token', $token, 60 * 24 * 365); // 1 year
-        }
-
-        return $token;
-    }
-
-    // Get poll results with counts and percentages
-    private function getPollResults($poll) {
-        $options = $poll->options;
-        $totalVotes = $poll->votes()->count();
-
-        $results = [];
-
-        foreach ($options as $option) {
-            $voteCount = $option->votes()->count();
-            $percentage = $totalVotes > 0 ? round(($voteCount / $totalVotes) * 100, 1) : 0;
-
-            $results[] = [
-                'option' => $option,
-                'votes' => $voteCount,
-                'percentage' => $percentage,
-            ];
-        }
-
-        // Custom answers if enabled
-        if ($poll->allow_custom) {
-            $customVotes = $poll->votes()->whereNotNull('custom_answer')->get();
-            $customAnswers = [];
-
-            foreach ($customVotes as $vote) {
-                if (!isset($customAnswers[$vote->custom_answer])) {
-                    $customAnswers[$vote->custom_answer] = 0;
+        DB::transaction(function () use ($optionIds, $userId, $voterId, $ipAddress) {
+            foreach ($optionIds as $optionId) {
+                // Skip if this exact vote already exists
+                $exists = PollVote::where('poll_option_id', $optionId)
+                    ->where(function($query) use ($userId, $voterId) {
+                        if ($userId) {
+                            $query->where('user_id', $userId);
+                        } elseif ($voterId) {
+                            $query->where('voter_id', $voterId);
+                        }
+                    })->exists();
+                
+                if (!$exists) {
+                    PollVote::create([
+                        'poll_option_id' => $optionId,
+                        'user_id' => $userId,
+                        'voter_id' => $voterId,
+                        'ip_address' => $ipAddress,
+                    ]);
                 }
-                $customAnswers[$vote->custom_answer]++;
             }
+        });
 
-            $results['custom'] = $customAnswers;
+        // Return updated poll data with vote counts
+        $poll->refresh();
+        $poll->load([
+            'options' => function ($query) {
+                $query->withCount('votes');
+            }
+        ]);
+        $poll->loadCount('allVotes');
+
+        return response()->json([
+            'message' => 'Your vote has been recorded.',
+            'poll' => $poll
+        ]);
+    }
+
+    /**
+     * Get poll results without voting.
+     */
+    public function results(Poll $poll)
+    {
+        if (!$poll->is_public) {
+            abort(403, 'This poll is not public.');
         }
 
-        return [
-            'total' => $totalVotes,
-            'options' => $results,
-        ];
+        $poll->load([
+            'options' => function ($query) {
+                $query->withCount('votes');
+            }
+        ]);
+        $poll->loadCount('allVotes');
+
+        $userVotes = null;
+        if (Auth::check()) {
+            $userVotes = PollOption::whereIn('id', $poll->options->pluck('id'))
+                ->whereHas('votes', function ($query) {
+                    $query->where('user_id', Auth::id());
+                })
+                ->pluck('id');
+        } else {
+            // For non-authenticated users, check if they voted via session ID
+            $voterSessionId = session()->get('voter_id');
+            if ($voterSessionId) {
+                $userVotes = PollOption::whereIn('id', $poll->options->pluck('id'))
+                    ->whereHas('votes', function ($query) use ($voterSessionId) {
+                        $query->where('voter_id', $voterSessionId);
+                    })
+                    ->pluck('id');
+            }
+        }
+
+        return response()->json([
+            'poll' => $poll,
+            'userVotes' => $userVotes
+        ]);
     }
 }

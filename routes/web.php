@@ -34,6 +34,14 @@ Route::middleware([
     Route::put('/links/{link}', [LinkController::class, 'update'])->name('links.update');
     Route::delete('/links/{link}', [LinkController::class, 'destroy'])->name('links.destroy');
     Route::post('/links/reorder', [LinkController::class, 'reorder'])->name('links.reorder');
+    
+    // Poll routes for authenticated users
+    Route::get('/dashboard/polls', [PollController::class, 'index'])->name('polls.index');
+    Route::get('/dashboard/polls/create', [PollController::class, 'create'])->name('polls.create');
+    Route::post('/polls', [PollController::class, 'store'])->name('polls.store');
+    Route::get('/dashboard/polls/{poll}/edit', [PollController::class, 'edit'])->name('polls.edit');
+    Route::put('/polls/{poll}', [PollController::class, 'update'])->name('polls.update');
+    Route::delete('/polls/{poll}', [PollController::class, 'destroy'])->name('polls.destroy');
 });
 
 Route::get('/api/og-image', [OGImageController::class, 'generate'])
@@ -54,19 +62,13 @@ Route::prefix('captcha')->group(function () {
     Route::post('/verify', [CaptchaController::class, 'verify'])->name('captcha.verify');
 });
 
-Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('admin.')->group(function () {
-    Route::resource('polls', PollController::class);
-    Route::post('polls/reorder', [PollController::class, 'reorder'])->name('admin.polls.reorder');
-});
-
-// Public routes
-Route::prefix('polls')->name('polls.')->group(function () {
-    Route::get('/', [PublicPollController::class, 'index'])->name('index');
-    Route::get('/{id}', [PublicPollController::class, 'show'])->name('show');
-    Route::post('/{id}/vote', [PublicPollController::class, 'vote'])->name('vote');
-});
-
 Route::get('/privacy-policy/{appName}', [PrivacyPolicyController::class, 'show'])->name('privacy-policy.show');
+
+// Public poll routes
+Route::get('/polls', [PublicPollController::class, 'index'])->name('public-polls.index');
+Route::get('/polls/{poll}', [PollController::class, 'show'])->name('polls.show');
+Route::post('/polls/{poll}/vote', [PublicPollController::class, 'vote'])->name('polls.vote');
+Route::get('/polls/{poll}/results', [PublicPollController::class, 'results'])->name('polls.results');
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

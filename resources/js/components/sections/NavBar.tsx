@@ -70,6 +70,9 @@ export default function NavBar({ auth }: NavBarProps) {
                         <Link href={route('apps.index')} className="text-sm transition-colors hover:text-[#8847BB] dark:hover:text-[#F9BAEE]">
                             Apps
                         </Link>
+                        <Link href={route('public-polls.index')} className="text-sm transition-colors hover:text-[#8847BB] dark:hover:text-[#F9BAEE]">
+                            Polls
+                        </Link>
                     </div>
 
                     <div className="border-l-2 border-[#19140035] dark:border-[#3E3E3A]">&nbsp;</div>

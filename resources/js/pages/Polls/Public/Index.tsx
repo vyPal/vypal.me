@@ -1,143 +1,264 @@
-import SEO from '@/components/SEO';
 import { Link } from '@inertiajs/react';
+import { CalendarIcon, UserIcon, VoteIcon } from 'lucide-react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
+
+// Components
+import NavBar from '@/components/sections/NavBar';
+import Footer from '@/components/sections/Footer';
+import SEO from '@/components/SEO';
 
 interface PollOption {
     id: number;
-    title: string;
-    color?: string;
-    icon?: string;
+    text: string;
+    votes_count: number;
 }
 
 interface Poll {
     id: number;
     title: string;
-    description?: string;
-    type: 'yes_no' | 'multiple_choice' | 'ranking' | 'custom_input';
+    description: string | null;
+    is_public: boolean;
+    multiple_choice: boolean;
+    ends_at: string | null;
+    created_at: string;
+    updated_at: string;
+    all_votes_count: number;
     options: PollOption[];
-    is_active: boolean;
+    user: {
+        id: number;
+        name: string;
+    };
 }
 
-interface Props {
-    polls: Poll[];
+interface PublicPollsProps {
+    polls: {
+        data: Poll[];
+        links: any;
+        meta: any;
+    };
+    auth: {
+        user: any;
+    };
 }
 
-export default function PollsIndex({ polls }: Props) {
+export default function PublicPolls({ polls, auth }: PublicPollsProps) {
+    const [filter, setFilter] = useState('all');
+    
+    const filteredPolls = polls.data.filter(poll => {
+        if (filter === 'active') {
+            return !poll.ends_at || new Date(poll.ends_at) > new Date();
+        } else if (filter === 'ended') {
+            return poll.ends_at && new Date(poll.ends_at) <= new Date();
+        }
+        return true;
+    });
+
+    const staggerAnimation = {
+        hidden: { opacity: 0 },
+        show: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1
+            }
+        }
+    };
+
+    const itemAnimation = {
+        hidden: { opacity: 0, y: 20 },
+        show: { opacity: 1, y: 0 }
+    };
+
     return (
-        <div className="mx-auto min-h-screen max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
+        <>
             <SEO
-                title="vyPal Polls | Interactive Community Surveys"
-                description="Vote in interactive polls and see real-time results. Share your opinions on a variety of topics through simple and engaging polls."
-                keywords="polls, voting, interactive, community surveys, opinions, feedback"
-                url="https://vypal.me/polls"
-                tags={['polls', 'voting', 'interactive', 'feedback']}
+                title="Public Polls | Vote on community polls"
+                description="Browse and vote on public polls created by the community."
+                keywords="polls, voting, community polls, public polls"
+                url="/polls"
             />
-
-            <div className="text-center">
-                <motion.h1
-                    className="text-3xl font-bold tracking-tight sm:text-4xl"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                >
-                    Interactive <span className="text-[#8847BB] dark:text-[#F9BAEE]">Polls</span>
-                </motion.h1>
-                <motion.p
-                    className="mx-auto mt-3 max-w-2xl text-lg text-[#706f6c] dark:text-[#A1A09A]"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.1 }}
-                >
-                    Vote in interactive polls and see real-time results. Share your opinions on a variety of topics!
-                </motion.p>
-            </div>
-
-            <motion.div
-                className="mt-12 grid gap-6 md:grid-cols-2"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-            >
-                {polls.length === 0 ? (
-                    <div className="col-span-2 rounded-lg border border-[#5E4290]/20 bg-white p-8 text-center dark:bg-[#161615]">
-                        <h2 className="text-xl font-semibold">No active polls at the moment</h2>
-                        <p className="mt-2 text-[#706f6c] dark:text-[#A1A09A]">Check back soon for new polls to participate in!</p>
-                    </div>
-                ) : (
-                    polls.map((poll, index) => (
-                        <motion.div
-                            key={poll.id}
-                            className="group overflow-hidden rounded-lg border border-[#5E4290]/20 bg-white shadow-sm transition-all hover:shadow-md dark:bg-[#161615]"
-                            initial={{ opacity: 0, y: 20 }}
+            
+            <div className="bg-background text-foreground min-h-screen">
+                <NavBar auth={auth} />
+                
+                <main className="container mx-auto px-6 pt-28 pb-16">
+                    <div className="mb-12 flex flex-col items-center text-center">
+                        <motion.h1 
+                            className="text-4xl font-bold tracking-tight sm:text-5xl"
+                            initial={{ opacity: 0, y: -20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.3, delay: 0.1 + index * 0.05 }}
+                            transition={{ duration: 0.5 }}
                         >
-                            <Link href={`/polls/${poll.id}`}>
-                                <div className="p-6">
-                                    <h2 className="mb-2 text-xl font-medium group-hover:text-[#8847BB] dark:group-hover:text-[#F9BAEE]">
-                                        {poll.title}
-                                    </h2>
+                            Public Polls
+                        </motion.h1>
+                        <motion.p 
+                            className="mt-4 text-xl text-muted-foreground max-w-xl"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.5, delay: 0.2 }}
+                        >
+                            Browse and vote on polls created by the community
+                        </motion.p>
 
-                                    {poll.description && (
-                                        <p className="mb-4 text-sm text-[#706f6c] dark:text-[#A1A09A]">
-                                            {poll.description.length > 120 ? `${poll.description.substring(0, 120)}...` : poll.description}
-                                        </p>
-                                    )}
-
-                                    <div className="flex items-center justify-between">
-                                        <div className="flex -space-x-2">
-                                            {poll.options.slice(0, 4).map((option, i) => (
-                                                <div
-                                                    key={i}
-                                                    className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-white text-xs font-medium dark:border-[#161615]"
-                                                    style={{
-                                                        backgroundColor: option.color || '#8847BB',
-                                                        zIndex: 4 - i,
-                                                    }}
-                                                >
-                                                    {option.title.charAt(0)}
-                                                </div>
-                                            ))}
-
-                                            {poll.options.length > 4 && (
-                                                <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-gray-500 text-xs font-medium dark:border-[#161615]">
-                                                    +{poll.options.length - 4}
-                                                </div>
-                                            )}
-                                        </div>
-
-                                        <span className="inline-flex items-center rounded-full bg-[#8847BB]/10 px-2.5 py-0.5 text-xs font-medium text-[#8847BB] dark:bg-[#5E4290]/20 dark:text-[#F9BAEE]">
-                                            {poll.type === 'yes_no' && 'Yes/No'}
-                                            {poll.type === 'multiple_choice' && 'Multiple Choice'}
-                                            {poll.type === 'ranking' && 'Ranking'}
-                                            {poll.type === 'custom_input' && 'Custom Input'}
-                                        </span>
-                                    </div>
-                                    <div className="absolute bottom-0 left-0 h-1 w-0 bg-gradient-to-r from-[#8847BB] to-[#5E4290] transition-all duration-300 group-hover:w-full dark:from-[#F9BAEE] dark:to-[#8847BB]"></div>
-                                </div>
+                        <motion.div 
+                            className="mt-6 flex gap-4"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.5, delay: 0.3 }}
+                        >
+                            {auth.user && (
+                                <Link 
+                                    href={route('polls.create')} 
+                                    className="inline-flex items-center rounded-md bg-[#8847BB] px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-[#7040a0] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8847BB] dark:bg-[#8847BB] dark:hover:bg-[#9957cb]"
+                                >
+                                    Create New Poll
+                                </Link>
+                            )}
+                            <Link 
+                                href={auth.user ? route('polls.index') : route('login')} 
+                                className="inline-flex items-center rounded-md border border-[#19140035] bg-background px-4 py-2 text-sm font-medium shadow-sm hover:bg-[#f5f5f3] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8847BB] dark:border-[#3E3E3A] dark:hover:bg-[#1C1C1A]"
+                            >
+                                {auth.user ? "My Polls" : "Sign in to Create"}
                             </Link>
                         </motion.div>
-                    ))
-                )}
-            </motion.div>
-
-            <motion.div
-                className="mt-16 rounded-lg border border-[#5E4290]/20 bg-white p-8 text-center shadow-sm dark:bg-[#161615]"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-            >
-                <h2 className="text-2xl font-semibold">Have an idea for a poll?</h2>
-                <p className="mx-auto mt-2 max-w-2xl text-[#706f6c] dark:text-[#A1A09A]">
-                    If you have a suggestion for a poll topic, feel free to reach out!
-                </p>
-                <a
-                    href="/#contact"
-                    className="mt-6 inline-block rounded-md bg-[#8847BB] px-6 py-3 text-white transition-colors hover:bg-[#7838a6] dark:bg-[#5E4290] dark:hover:bg-[#4e3578]"
-                >
-                    Suggest a Poll Topic
-                </a>
-            </motion.div>
-        </div>
+                    </div>
+                    
+                    <div className="mb-8 flex items-center justify-between">
+                        <div className="flex gap-4">
+                            <button
+                                onClick={() => setFilter('all')}
+                                className={`px-3 py-1 text-sm font-medium rounded-md transition-colors ${
+                                    filter === 'all' 
+                                        ? 'bg-[#8847BB] text-white dark:bg-[#8847BB]' 
+                                        : 'hover:bg-[#f5f5f3] dark:hover:bg-[#1C1C1A]'
+                                }`}
+                            >
+                                All
+                            </button>
+                            <button
+                                onClick={() => setFilter('active')}
+                                className={`px-3 py-1 text-sm font-medium rounded-md transition-colors ${
+                                    filter === 'active' 
+                                        ? 'bg-[#8847BB] text-white dark:bg-[#8847BB]' 
+                                        : 'hover:bg-[#f5f5f3] dark:hover:bg-[#1C1C1A]'
+                                }`}
+                            >
+                                Active
+                            </button>
+                            <button
+                                onClick={() => setFilter('ended')}
+                                className={`px-3 py-1 text-sm font-medium rounded-md transition-colors ${
+                                    filter === 'ended' 
+                                        ? 'bg-[#8847BB] text-white dark:bg-[#8847BB]' 
+                                        : 'hover:bg-[#f5f5f3] dark:hover:bg-[#1C1C1A]'
+                                }`}
+                            >
+                                Ended
+                            </button>
+                        </div>
+                        
+                        <div className="text-sm text-muted-foreground">
+                            {filteredPolls.length} {filteredPolls.length === 1 ? 'poll' : 'polls'}
+                        </div>
+                    </div>
+                    
+                    {filteredPolls.length > 0 ? (
+                        <motion.div 
+                            className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+                            variants={staggerAnimation}
+                            initial="hidden"
+                            animate="show"
+                        >
+                            {filteredPolls.map(poll => (
+                                <motion.div
+                                    key={poll.id}
+                                    variants={itemAnimation}
+                                    className="group flex flex-col rounded-lg border border-[#19140035] bg-background p-6 shadow-sm transition-all hover:border-[#1915014a] hover:shadow-md dark:border-[#3E3E3A] dark:hover:border-[#62605b]"
+                                >
+                                    <Link href={route('polls.show', poll.id)} className="flex-1">
+                                        <h3 className="line-clamp-2 text-lg font-semibold group-hover:text-[#8847BB] dark:group-hover:text-[#F9BAEE]">
+                                            {poll.title}
+                                        </h3>
+                                        
+                                        {poll.description && (
+                                            <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">
+                                                {poll.description}
+                                            </p>
+                                        )}
+                                    </Link>
+                                    
+                                    <div className="mt-4 pt-4 border-t border-[#19140025] dark:border-[#3E3E3A]">
+                                        <div className="flex justify-between text-xs text-muted-foreground">
+                                            <div className="flex items-center space-x-1">
+                                                <UserIcon className="size-3.5" />
+                                                <span>{poll.user.name}</span>
+                                            </div>
+                                            
+                                            <div className="flex items-center space-x-1">
+                                                <CalendarIcon className="size-3.5" />
+                                                <span>
+                                                    {poll.ends_at 
+                                                        ? new Date(poll.ends_at) <= new Date() 
+                                                            ? "Ended" 
+                                                            : `Ends ${new Date(poll.ends_at).toLocaleDateString()}`
+                                                        : "No end date"}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="mt-3 flex items-center justify-between">
+                                            <div className="flex items-center space-x-1 text-xs">
+                                                <span className="font-semibold">{poll.all_votes_count}</span>
+                                                <span className="text-muted-foreground">votes</span>
+                                            </div>
+                                            
+                                            <Link
+                                                href={route('polls.show', poll.id)}
+                                                className="flex items-center rounded-md bg-[#8847BB]/10 px-2.5 py-1 text-xs font-medium text-[#8847BB] transition-colors hover:bg-[#8847BB]/20 dark:bg-[#8847BB]/20 dark:text-[#F9BAEE] dark:hover:bg-[#8847BB]/30"
+                                            >
+                                                Vote Now
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </motion.div>
+                    ) : (
+                        <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-[#19140035] bg-background p-12 text-center dark:border-[#3E3E3A]">
+                            <div className="text-6xl mb-4">🗳️</div>
+                            <h3 className="text-xl font-medium">No polls found</h3>
+                            <p className="mt-2 text-muted-foreground">
+                                {filter !== 'all' 
+                                    ? `No ${filter} polls available. Try a different filter.` 
+                                    : 'There are no public polls available at the moment.'}
+                            </p>
+                        </div>
+                    )}
+                    
+                    {polls.meta.last_page > 1 && (
+                        <div className="mt-12 flex justify-center">
+                            <nav className="flex space-x-1">
+                                {polls.links.map((link, i) => (
+                                    <Link
+                                        key={i}
+                                        href={link.url || '#'}
+                                        className={`px-4 py-2 text-sm ${
+                                            link.active
+                                                ? 'bg-[#8847BB] text-white dark:bg-[#8847BB]'
+                                                : link.url
+                                                ? 'hover:bg-[#f5f5f3] dark:hover:bg-[#1C1C1A]'
+                                                : 'opacity-50 cursor-default'
+                                        } rounded-md`}
+                                        dangerouslySetInnerHTML={{ __html: link.label }}
+                                    />
+                                ))}
+                            </nav>
+                        </div>
+                    )}
+                </main>
+                
+                <Footer />
+            </div>
+        </>
     );
 }

@@ -7,6 +7,7 @@ interface SmoothScrollLinkProps {
   className?: string;
   duration?: number; // milliseconds
   offset?: number; // pixels to offset from target (useful for fixed headers)
+  onClick?: () => void;
 }
 
 export default function SmoothScrollLink({
@@ -14,19 +15,22 @@ export default function SmoothScrollLink({
   children,
   className = '',
   duration = 800,
-  offset = 0
+  offset = 0,
+  onClick
 }: SmoothScrollLinkProps) {
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     e.preventDefault();
 
+    onClick?.();
+
     // Parse the href to separate the page path and hash
-    const [pagePath, hash] = href.includes('#') ? 
-      [href.split('#')[0], href.split('#')[1]] : 
+    const [pagePath, hash] = href.includes('#') ?
+      [href.split('#')[0], href.split('#')[1]] :
       [window.location.pathname, href.replace(/.*#/, '')];
-    
+
     const targetId = hash || href.replace(/.*#/, '');
     const isCurrentPage = pagePath === '' || window.location.pathname === pagePath;
-    
+
     // If we're already on the target page, just scroll
     if (isCurrentPage) {
       const element = document.getElementById(targetId);

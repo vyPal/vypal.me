@@ -58,7 +58,7 @@ class Poll extends Model
      */
     public function allVotes(): HasManyThrough
     {
-        return $this->hasManyThrough(PollVote::class, PollOption::class);
+        return $this->hasManyThrough(PollVote::class, PollOption::class, 'poll_id', 'poll_option_id');
     }
 
     /**

@@ -8,6 +8,7 @@ interface SEOProps {
     type?: string;
     url?: string;
     tags?: string[];
+    pollId?: number; // Add poll ID for poll-specific OG images
 }
 
 export default function SEO({
@@ -18,6 +19,7 @@ export default function SEO({
     type = 'website',
     url,
     tags = [],
+    pollId,
 }: SEOProps) {
     if (typeof window === 'undefined' && !url) {
         return null;
@@ -27,11 +29,14 @@ export default function SEO({
 
     // Generate comma-separated tags for the og-image query string
     const tagsParam = tags.length > 0 ? `&tags=${encodeURIComponent(tags.join(','))}` : '';
+    
+    // Add poll ID parameter if available
+    const pollParam = pollId ? `&poll_id=${pollId}` : '';
 
     // Use dynamic OG image if not explicitly provided
     const ogImage =
         image ||
-        `https://vypal.me/api/og-image?title=${encodeURIComponent(title.split(' | ')[0])}&path=${encodeURIComponent(typeof window === 'undefined' ? pageUrl.replace('https://vypal.me', '') : window.location.pathname)}${tagsParam}`;
+        `https://vypal.me/api/og-image?title=${encodeURIComponent(title.split(' | ')[0])}&path=${encodeURIComponent(typeof window === 'undefined' ? pageUrl.replace('https://vypal.me', '') : window.location.pathname)}${tagsParam}${pollParam}`;
 
     return (
         <Head>

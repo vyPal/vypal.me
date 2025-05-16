@@ -136,6 +136,7 @@ export default function PollDetail({ poll, userVotes: initialUserVotes, auth }: 
                 description={poll.description || `Vote on "${poll.title}" poll and see the results.`}
                 keywords="poll, vote, results, community poll"
                 url={`/polls/${poll.id}`}
+                pollId={poll.id}
             />
             
             <div className="bg-background text-foreground min-h-screen">

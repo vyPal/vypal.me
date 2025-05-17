@@ -29,7 +29,7 @@ export default function SEO({
 
     // Generate comma-separated tags for the og-image query string
     const tagsParam = tags.length > 0 ? `&tags=${encodeURIComponent(tags.join(','))}` : '';
-    
+
     // Add poll ID parameter if available
     const pollParam = pollId ? `&poll_id=${pollId}` : '';
 

@@ -13,6 +13,7 @@ interface PollFormData {
     multiple_choice: boolean;
     ends_at: string | null;
     options: { text: string }[];
+    [key: string]: string | boolean | { [key: string]: string }[] | null;
 }
 
 export default function CreatePoll() {
@@ -69,7 +70,7 @@ export default function CreatePoll() {
     };
 
     return (
-        <AppLayout title="Create New Poll">
+        <AppLayout>
             <Head title="Create New Poll" />
 
             <div className="py-12">

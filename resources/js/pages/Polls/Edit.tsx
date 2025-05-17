@@ -10,6 +10,7 @@ interface PollOption {
     id?: number;
     text: string;
     votes_count?: number;
+    [key: string]: number | string | undefined;
 }
 
 interface Poll {
@@ -21,6 +22,7 @@ interface Poll {
     ends_at: string | null;
     options: PollOption[];
     all_votes_count?: number;
+    [key: string]: number | string | boolean | null | undefined | PollOption[];
 }
 
 interface EditPollProps {
@@ -28,7 +30,7 @@ interface EditPollProps {
 }
 
 export default function EditPoll({ poll }: EditPollProps) {
-    const { data, setData, put, processing, errors, reset } = useForm<Poll>({
+    const { data, setData, put, processing, errors } = useForm<Required<Poll>>({
         id: poll.id,
         title: poll.title,
         description: poll.description || '',
@@ -36,6 +38,7 @@ export default function EditPoll({ poll }: EditPollProps) {
         multiple_choice: poll.multiple_choice,
         ends_at: poll.ends_at,
         options: poll.options || [],
+        all_votes_count: poll.all_votes_count || 0,
     });
 
     const [showDatePicker, setShowDatePicker] = useState(!!poll.ends_at);
@@ -94,7 +97,7 @@ export default function EditPoll({ poll }: EditPollProps) {
     };
 
     return (
-        <AppLayout title="Edit Poll">
+        <AppLayout>
             <Head title={`Edit Poll: ${poll.title}`} />
 
             <div className="py-12">

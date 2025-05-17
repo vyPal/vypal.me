@@ -1,11 +1,11 @@
 import { Link } from '@inertiajs/react';
-import { CalendarIcon, UserIcon, VoteIcon } from 'lucide-react';
-import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { CalendarIcon, UserIcon } from 'lucide-react';
+import { useState } from 'react';
 
 // Components
-import NavBar from '@/components/sections/NavBar';
 import Footer from '@/components/sections/Footer';
+import NavBar from '@/components/sections/NavBar';
 import SEO from '@/components/SEO';
 
 interface PollOption {
@@ -44,8 +44,8 @@ interface PublicPollsProps {
 
 export default function PublicPolls({ polls, auth }: PublicPollsProps) {
     const [filter, setFilter] = useState('all');
-    
-    const filteredPolls = polls.data.filter(poll => {
+
+    const filteredPolls = polls.data.filter((poll) => {
         if (filter === 'active') {
             return !poll.ends_at || new Date(poll.ends_at) > new Date();
         } else if (filter === 'ended') {
@@ -59,14 +59,14 @@ export default function PublicPolls({ polls, auth }: PublicPollsProps) {
         show: {
             opacity: 1,
             transition: {
-                staggerChildren: 0.1
-            }
-        }
+                staggerChildren: 0.1,
+            },
+        },
     };
 
     const itemAnimation = {
         hidden: { opacity: 0, y: 20 },
-        show: { opacity: 1, y: 0 }
+        show: { opacity: 1, y: 0 },
     };
 
     return (
@@ -77,13 +77,13 @@ export default function PublicPolls({ polls, auth }: PublicPollsProps) {
                 keywords="polls, voting, community polls, public polls"
                 url="/polls"
             />
-            
+
             <div className="bg-background text-foreground min-h-screen">
                 <NavBar auth={auth} />
-                
+
                 <main className="container mx-auto px-6 pt-28 pb-16">
                     <div className="mb-12 flex flex-col items-center text-center">
-                        <motion.h1 
+                        <motion.h1
                             className="text-4xl font-bold tracking-tight sm:text-5xl"
                             initial={{ opacity: 0, y: -20 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -91,8 +91,8 @@ export default function PublicPolls({ polls, auth }: PublicPollsProps) {
                         >
                             Public Polls
                         </motion.h1>
-                        <motion.p 
-                            className="mt-4 text-xl text-muted-foreground max-w-xl"
+                        <motion.p
+                            className="text-muted-foreground mt-4 max-w-xl text-xl"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ duration: 0.5, delay: 0.2 }}
@@ -100,118 +100,108 @@ export default function PublicPolls({ polls, auth }: PublicPollsProps) {
                             Browse and vote on polls created by the community
                         </motion.p>
 
-                        <motion.div 
+                        <motion.div
                             className="mt-6 flex gap-4"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ duration: 0.5, delay: 0.3 }}
                         >
                             {auth.user && (
-                                <Link 
-                                    href={route('polls.create')} 
+                                <Link
+                                    href={route('polls.create')}
                                     className="inline-flex items-center rounded-md bg-[#8847BB] px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-[#7040a0] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8847BB] dark:bg-[#8847BB] dark:hover:bg-[#9957cb]"
                                 >
                                     Create New Poll
                                 </Link>
                             )}
-                            <Link 
-                                href={auth.user ? route('polls.index') : route('login')} 
-                                className="inline-flex items-center rounded-md border border-[#19140035] bg-background px-4 py-2 text-sm font-medium shadow-sm hover:bg-[#f5f5f3] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8847BB] dark:border-[#3E3E3A] dark:hover:bg-[#1C1C1A]"
+                            <Link
+                                href={auth.user ? route('polls.index') : route('login')}
+                                className="bg-background inline-flex items-center rounded-md border border-[#19140035] px-4 py-2 text-sm font-medium shadow-sm hover:bg-[#f5f5f3] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8847BB] dark:border-[#3E3E3A] dark:hover:bg-[#1C1C1A]"
                             >
-                                {auth.user ? "My Polls" : "Sign in to Create"}
+                                {auth.user ? 'My Polls' : 'Sign in to Create'}
                             </Link>
                         </motion.div>
                     </div>
-                    
+
                     <div className="mb-8 flex items-center justify-between">
                         <div className="flex gap-4">
                             <button
                                 onClick={() => setFilter('all')}
-                                className={`px-3 py-1 text-sm font-medium rounded-md transition-colors ${
-                                    filter === 'all' 
-                                        ? 'bg-[#8847BB] text-white dark:bg-[#8847BB]' 
-                                        : 'hover:bg-[#f5f5f3] dark:hover:bg-[#1C1C1A]'
+                                className={`rounded-md px-3 py-1 text-sm font-medium transition-colors ${
+                                    filter === 'all' ? 'bg-[#8847BB] text-white dark:bg-[#8847BB]' : 'hover:bg-[#f5f5f3] dark:hover:bg-[#1C1C1A]'
                                 }`}
                             >
                                 All
                             </button>
                             <button
                                 onClick={() => setFilter('active')}
-                                className={`px-3 py-1 text-sm font-medium rounded-md transition-colors ${
-                                    filter === 'active' 
-                                        ? 'bg-[#8847BB] text-white dark:bg-[#8847BB]' 
-                                        : 'hover:bg-[#f5f5f3] dark:hover:bg-[#1C1C1A]'
+                                className={`rounded-md px-3 py-1 text-sm font-medium transition-colors ${
+                                    filter === 'active' ? 'bg-[#8847BB] text-white dark:bg-[#8847BB]' : 'hover:bg-[#f5f5f3] dark:hover:bg-[#1C1C1A]'
                                 }`}
                             >
                                 Active
                             </button>
                             <button
                                 onClick={() => setFilter('ended')}
-                                className={`px-3 py-1 text-sm font-medium rounded-md transition-colors ${
-                                    filter === 'ended' 
-                                        ? 'bg-[#8847BB] text-white dark:bg-[#8847BB]' 
-                                        : 'hover:bg-[#f5f5f3] dark:hover:bg-[#1C1C1A]'
+                                className={`rounded-md px-3 py-1 text-sm font-medium transition-colors ${
+                                    filter === 'ended' ? 'bg-[#8847BB] text-white dark:bg-[#8847BB]' : 'hover:bg-[#f5f5f3] dark:hover:bg-[#1C1C1A]'
                                 }`}
                             >
                                 Ended
                             </button>
                         </div>
-                        
-                        <div className="text-sm text-muted-foreground">
+
+                        <div className="text-muted-foreground text-sm">
                             {filteredPolls.length} {filteredPolls.length === 1 ? 'poll' : 'polls'}
                         </div>
                     </div>
-                    
+
                     {filteredPolls.length > 0 ? (
-                        <motion.div 
+                        <motion.div
                             className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
                             variants={staggerAnimation}
                             initial="hidden"
                             animate="show"
                         >
-                            {filteredPolls.map(poll => (
+                            {filteredPolls.map((poll) => (
                                 <motion.div
                                     key={poll.id}
                                     variants={itemAnimation}
-                                    className="group flex flex-col rounded-lg border border-[#19140035] bg-background p-6 shadow-sm transition-all hover:border-[#1915014a] hover:shadow-md dark:border-[#3E3E3A] dark:hover:border-[#62605b]"
+                                    className="group bg-background flex flex-col rounded-lg border border-[#19140035] p-6 shadow-sm transition-all hover:border-[#1915014a] hover:shadow-md dark:border-[#3E3E3A] dark:hover:border-[#62605b]"
                                 >
                                     <Link href={route('polls.show', poll.id)} className="flex-1">
                                         <h3 className="line-clamp-2 text-lg font-semibold group-hover:text-[#8847BB] dark:group-hover:text-[#F9BAEE]">
                                             {poll.title}
                                         </h3>
-                                        
-                                        {poll.description && (
-                                            <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">
-                                                {poll.description}
-                                            </p>
-                                        )}
+
+                                        {poll.description && <p className="text-muted-foreground mt-2 line-clamp-2 text-sm">{poll.description}</p>}
                                     </Link>
-                                    
-                                    <div className="mt-4 pt-4 border-t border-[#19140025] dark:border-[#3E3E3A]">
-                                        <div className="flex justify-between text-xs text-muted-foreground">
+
+                                    <div className="mt-4 border-t border-[#19140025] pt-4 dark:border-[#3E3E3A]">
+                                        <div className="text-muted-foreground flex justify-between text-xs">
                                             <div className="flex items-center space-x-1">
                                                 <UserIcon className="size-3.5" />
                                                 <span>{poll.user.name}</span>
                                             </div>
-                                            
+
                                             <div className="flex items-center space-x-1">
                                                 <CalendarIcon className="size-3.5" />
                                                 <span>
-                                                    {poll.ends_at 
-                                                        ? new Date(poll.ends_at) <= new Date() 
-                                                            ? "Ended" 
+                                                    {poll.ends_at
+                                                        ? new Date(poll.ends_at) <= new Date()
+                                                            ? 'Ended'
                                                             : `Ends ${new Date(poll.ends_at).toLocaleDateString()}`
-                                                        : "No end date"}
+                                                        : 'No end date'}
                                                 </span>
                                             </div>
                                         </div>
-                                        
+
                                         <div className="mt-3 flex items-center justify-between">
                                             <div className="flex items-center space-x-1 text-xs">
                                                 <span className="font-semibold">{poll.all_votes_count}</span>
                                                 <span className="text-muted-foreground">votes</span>
                                             </div>
-                                            
+
                                             <Link
                                                 href={route('polls.show', poll.id)}
                                                 className="flex items-center rounded-md bg-[#8847BB]/10 px-2.5 py-1 text-xs font-medium text-[#8847BB] transition-colors hover:bg-[#8847BB]/20 dark:bg-[#8847BB]/20 dark:text-[#F9BAEE] dark:hover:bg-[#8847BB]/30"
@@ -224,17 +214,17 @@ export default function PublicPolls({ polls, auth }: PublicPollsProps) {
                             ))}
                         </motion.div>
                     ) : (
-                        <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-[#19140035] bg-background p-12 text-center dark:border-[#3E3E3A]">
-                            <div className="text-6xl mb-4">🗳️</div>
+                        <div className="bg-background flex flex-col items-center justify-center rounded-lg border border-dashed border-[#19140035] p-12 text-center dark:border-[#3E3E3A]">
+                            <div className="mb-4 text-6xl">🗳️</div>
                             <h3 className="text-xl font-medium">No polls found</h3>
-                            <p className="mt-2 text-muted-foreground">
-                                {filter !== 'all' 
-                                    ? `No ${filter} polls available. Try a different filter.` 
+                            <p className="text-muted-foreground mt-2">
+                                {filter !== 'all'
+                                    ? `No ${filter} polls available. Try a different filter.`
                                     : 'There are no public polls available at the moment.'}
                             </p>
                         </div>
                     )}
-                    
+
                     {polls.meta.last_page > 1 && (
                         <div className="mt-12 flex justify-center">
                             <nav className="flex space-x-1">
@@ -246,8 +236,8 @@ export default function PublicPolls({ polls, auth }: PublicPollsProps) {
                                             link.active
                                                 ? 'bg-[#8847BB] text-white dark:bg-[#8847BB]'
                                                 : link.url
-                                                ? 'hover:bg-[#f5f5f3] dark:hover:bg-[#1C1C1A]'
-                                                : 'opacity-50 cursor-default'
+                                                  ? 'hover:bg-[#f5f5f3] dark:hover:bg-[#1C1C1A]'
+                                                  : 'cursor-default opacity-50'
                                         } rounded-md`}
                                         dangerouslySetInnerHTML={{ __html: link.label }}
                                     />
@@ -256,7 +246,7 @@ export default function PublicPolls({ polls, auth }: PublicPollsProps) {
                         </div>
                     )}
                 </main>
-                
+
                 <Footer />
             </div>
         </>

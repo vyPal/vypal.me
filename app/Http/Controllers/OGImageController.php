@@ -31,7 +31,7 @@ class OGImageController extends Controller
         $cachePath = "og-images/{$cacheKey}.png";
 
         // Check if the image already exists in cache
-        if (!Storage::disk('public')->exists($cachePath)) {
+        if (!Storage::disk('public')->exists($cachePath) || config('app.debug')) {
             // Create the directory if it doesn't exist
             Storage::disk('public')->makeDirectory('og-images', 0777, true, true);
 
@@ -53,6 +53,12 @@ class OGImageController extends Controller
         }
 
         // Return the cached image
+        if (config('app.debug')) {
+            return Response::file(storage_path('app/public/' . $cachePath), [
+                'Content-Type' => 'image/png',
+                'Cache-Control' => 'no-cache, no-store, must-revalidate'
+            ]);
+        }
         return Response::file(storage_path('app/public/' . $cachePath), [
             'Content-Type' => 'image/png',
             'Cache-Control' => 'public, max-age=86400'
@@ -117,6 +123,7 @@ class OGImageController extends Controller
         // Load and resize the logo
         $logo = new \Imagick(public_path('media/vypal.png'));
         $logo->resizeImage(100, 100, \Imagick::FILTER_LANCZOS, 1, true);
+        $logo->roundCorners(10, 10);
         $image->compositeImage($logo, \Imagick::COMPOSITE_OVER, 60, 40);
 
         // Add the branding text
@@ -182,7 +189,7 @@ class OGImageController extends Controller
 
         // Calculate start position for poll options
         $startOptionsY = 380;
-        $barHeight = 32;
+        $barHeight = 36;
         $barSpacing = 56;
         $barWidth = 900;
 
@@ -198,8 +205,8 @@ class OGImageController extends Controller
                 $posY,
                 150 + $barWidth,
                 $posY + $barHeight,
-                6,
-                6
+                12,
+                12
             );
             $image->drawImage($bgBar);
 
@@ -213,8 +220,8 @@ class OGImageController extends Controller
                     $posY,
                     150 + $percentageWidth,
                     $posY + $barHeight,
-                    6,
-                    6
+                    12,
+                    12
                 );
                 $image->drawImage($percentBar);
             }
@@ -225,7 +232,7 @@ class OGImageController extends Controller
             $textDraw->setFont(resource_path('fonts/Inter-Regular.ttf'));
             $textDraw->setFontSize(26);
             $textDraw->setFillColor('white');
-            $textDraw->annotation(170, $posY + 24, $optionText);
+            $textDraw->annotation(160, $posY + 26, $optionText);
             $image->drawImage($textDraw);
 
             // Percentage text
@@ -234,7 +241,7 @@ class OGImageController extends Controller
             $percentText->setFontSize(26);
             $percentText->setFillColor('white');
             $percentText->setTextAlignment(\Imagick::ALIGN_RIGHT);
-            $percentText->annotation(1050, $posY + 24, $option['percentage'] . "%");
+            $percentText->annotation(1040, $posY + 27, $option['percentage'] . "%");
             $image->drawImage($percentText);
         }
 
@@ -288,6 +295,7 @@ class OGImageController extends Controller
 
         // Resize logo to 100x100px while maintaining aspect ratio
         $logo->resizeImage(100, 100, \Imagick::FILTER_LANCZOS, 1, true);
+        $logo->roundCorners(10, 10);
 
         // Composite the logo onto the main image
         $image->compositeImage($logo, \Imagick::COMPOSITE_OVER, 60, 40);

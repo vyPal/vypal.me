@@ -69,6 +69,7 @@ Route::get('/polls', [PublicPollController::class, 'index'])->name('public-polls
 Route::get('/polls/{poll}', [PollController::class, 'show'])->name('polls.show');
 Route::post('/polls/{poll}/vote', [PublicPollController::class, 'vote'])->name('polls.vote');
 Route::get('/polls/{poll}/results', [PublicPollController::class, 'results'])->name('polls.results');
+Route::get('/api/latest-poll', [PublicPollController::class, 'getLatestPoll'])->name('api.latest-poll');
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

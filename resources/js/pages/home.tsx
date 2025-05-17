@@ -9,6 +9,7 @@ import ContributionsSection from '@/components/sections/ContributionsSection';
 import FeaturedLinksSection from '@/components/sections/FeaturedLinks';
 import Footer from '@/components/sections/Footer';
 import HeroSection from '@/components/sections/HeroSection';
+import LatestPollSection from '@/components/sections/LatestPollSection';
 import NavBar from '@/components/sections/NavBar';
 import OrganizationsSection from '@/components/sections/OrganizationsSection';
 import ProjectsSection from '@/components/sections/ProjectsSection';
@@ -419,6 +420,9 @@ export default function Home() {
 
                         {/* Projects */}
                         <ProjectsSection scrollY={scrollY} />
+
+                        {/* Latest Poll Section */}
+                        <LatestPollSection scrollY={scrollY} />
 
                         {/* Open Source Contributions */}
                         <ContributionsSection scrollY={scrollY} />

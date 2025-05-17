@@ -14,6 +14,46 @@ use Illuminate\Validation\ValidationException;
 class PublicPollController extends Controller
 {
     /**
+     * Get the latest public poll with options and votes.
+     */
+    public function getLatestPoll()
+    {
+        $latestPoll = Poll::where('is_public', true)
+            ->with(['user:id,name', 'options' => function ($query) {
+                $query->withCount('votes')->orderBy('sort_order');
+            }])
+            ->withCount('allVotes')
+            ->latest()
+            ->first();
+
+        $userVotes = null;
+        if ($latestPoll) {
+            if (Auth::check()) {
+                $userVotes = PollOption::whereIn('id', $latestPoll->options->pluck('id'))
+                    ->whereHas('votes', function ($query) {
+                        $query->where('user_id', Auth::id());
+                    })
+                    ->pluck('id');
+            } else {
+                // For non-authenticated users, check if they voted via session ID
+                $voterSessionId = session()->get('voter_id');
+                if ($voterSessionId) {
+                    $userVotes = PollOption::whereIn('id', $latestPoll->options->pluck('id'))
+                        ->whereHas('votes', function ($query) use ($voterSessionId) {
+                            $query->where('voter_id', $voterSessionId);
+                        })
+                        ->pluck('id');
+                }
+            }
+        }
+
+        return response()->json([
+            'poll' => $latestPoll,
+            'userVotes' => $userVotes
+        ]);
+    }
+
+    /**
      * Display a listing of the public polls.
      */
     public function index()

@@ -330,6 +330,44 @@ export default function Home() {
                 // Animation complete, hide loader and show content
                 setTimeout(() => {
                     setIsLoading(false);
+
+                    setTimeout(() => {
+                        if (!window.location.href.includes('#')) {
+                            return;
+                        }
+
+                        const duration = 800;
+                        const offset = 0;
+
+                        const element = document.getElementById(window.location.href.split('#')[1]);
+
+                        if (element) {
+                            // Calculate where to scroll to
+                            const targetPosition = element.getBoundingClientRect().top + window.pageYOffset - offset;
+                            const startPosition = window.pageYOffset;
+                            const distance = targetPosition - startPosition;
+
+                            let startTime: number | null = null;
+
+                            // Smooth scroll animation function
+                            function animation(currentTime: number) {
+                                if (startTime === null) startTime = currentTime;
+                                const timeElapsed = currentTime - startTime;
+                                const progress = Math.min(timeElapsed / duration, 1);
+
+                                // Easing function - easeInOutCubic
+                                const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1);
+
+                                window.scrollTo(0, startPosition + distance * ease(progress));
+
+                                if (timeElapsed < duration) {
+                                    requestAnimationFrame(animation);
+                                }
+                            }
+
+                            requestAnimationFrame(animation);
+                        }
+                    }, 100);
                 }, 100);
                 return;
             }

@@ -6,6 +6,7 @@ use App\Http\Controllers\OGImageController;
 use App\Http\Controllers\PollController;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\PublicPollController;
+use App\Http\Controllers\TermsController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -34,7 +35,7 @@ Route::middleware([
     Route::put('/links/{link}', [LinkController::class, 'update'])->name('links.update');
     Route::delete('/links/{link}', [LinkController::class, 'destroy'])->name('links.destroy');
     Route::post('/links/reorder', [LinkController::class, 'reorder'])->name('links.reorder');
-    
+
     // Poll routes for authenticated users
     Route::get('/dashboard/polls', [PollController::class, 'index'])->name('polls.index');
     Route::get('/dashboard/polls/create', [PollController::class, 'create'])->name('polls.create');
@@ -63,6 +64,26 @@ Route::prefix('captcha')->group(function () {
 });
 
 Route::get('/privacy-policy/{appName}', [PrivacyPolicyController::class, 'show'])->name('privacy-policy.show');
+Route::get('/terms/{appName}', [TermsController::class, 'show'])->name('terms.show');
+
+// Admin routes for managing legal templates (stored in DB)
+// These endpoints are mounted under the dashboard prefix and require auth.
+Route::middleware(['auth'])->prefix('dashboard')->group(function () {
+    // Admin UI route for the generator page
+    Route::get('/legal-generator', function () { return Inertia::render('Admin/LegalGenerator/Index'); })->name('dashboard.legal-generator');
+
+    // List and create templates
+    Route::get('/legal-templates', [App\Http\Controllers\Admin\LegalTemplateController::class, 'index'])->name('admin.legal.index');
+    Route::post('/legal-templates', [App\Http\Controllers\Admin\LegalTemplateController::class, 'store'])->name('admin.legal.store');
+
+    // Read / update / delete a single template
+    Route::get('/legal-templates/{legalTemplate}', [App\Http\Controllers\Admin\LegalTemplateController::class, 'show'])->name('admin.legal.show');
+    Route::put('/legal-templates/{legalTemplate}', [App\Http\Controllers\Admin\LegalTemplateController::class, 'update'])->name('admin.legal.update');
+    Route::delete('/legal-templates/{legalTemplate}', [App\Http\Controllers\Admin\LegalTemplateController::class, 'destroy'])->name('admin.legal.destroy');
+
+    // Preview generation endpoint (AJAX) - returns generated markdown for preview
+    Route::post('/legal-templates/preview', [App\Http\Controllers\Admin\LegalTemplateController::class, 'preview'])->name('admin.legal.preview');
+});
 
 // Public poll routes
 Route::get('/polls', [PublicPollController::class, 'index'])->name('public-polls.index');

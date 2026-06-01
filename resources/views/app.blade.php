@@ -7,6 +7,8 @@
         {{-- Inline script to detect system dark mode preference and apply it immediately --}}
 
         <meta name="author" content="Jakub Palacký">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <meta name="google-adsense-account" content="ca-pub-2237148760200150">
 
         <link rel="apple-touch-icon" sizes="180x180" href="/media/vypal.png">
         <link rel="icon" type="image/png" sizes="32x32" href="/media/vypal.png">

@@ -53,5 +53,18 @@
     </head>
     <body class="font-sans antialiased">
         @inertia
+
+        <noscript>
+            <div style="padding: 20px; font-family: sans-serif;">
+                <h1>Jakub Palacký - vyPal.me</h1>
+                <p>Vítejte na mém osobním portfoliu. Zde prezentuji své softwarové projekty, webové aplikace a systémovou infrastrukturu.</p>
+                <p>Tato doména slouží jako hlavní rozcestník pro mé vývojářské aktivity a doprovodné projekty, včetně bezplatných hostingových platforem a přidružených řídicích panelů.</p>
+            </div>
+        </noscript>
+
+        <div id="app-fallback-ad-crawler" style="display:none !important; aria-hidden: true;">
+            <h1>Jakub Palacký - Softwarový Vývojář</h1>
+            <p>Prezentace projektů, vývoj aplikací na zakázku, správa serverové infrastruktury a cloudových řešení. Tato stránka je aktivní a plně v provozu.</p>
+        </div>
     </body>
 </html>
